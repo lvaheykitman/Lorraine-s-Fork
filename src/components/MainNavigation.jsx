@@ -1,7 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import { useLocation, useNavigate } from 'react-router-dom'
-import KitmanLogo from '/public/assets/logos/Kitman Labs base.png'
 import {
   Drawer,
   Box,
@@ -11,289 +10,196 @@ import {
   ListItemIcon,
   ListItemText,
   IconButton,
-  Tooltip
+  Tooltip,
+  Typography
 } from '@mui/material'
 import {
-  LocalHospitalOutlined,
-  AnalyticsOutlined,
   PeopleOutlined,
+  LocalHospitalOutlined,
   FitnessCenterOutlined,
-  AssignmentOutlined,
-  CalendarMonthOutlined,
-  HistoryOutlined,
-  SettingsOutlined,
-  HelpOutlined,
+  NotificationsOutlined,
   ChevronLeftOutlined,
-  ChevronRightOutlined,
-  AssessmentOutlined
+  ChevronRightOutlined
 } from '@mui/icons-material'
 import '../styles/design-tokens.css'
 
-// Navigation items configuration
+// Navigation items configuration for NFL theme
 const navigationItems = [
   { 
-    id: 'medical', 
-    label: 'Medical', 
-    icon: LocalHospitalOutlined, 
-    path: '/medical',
-    section: 'main'
-  },
-  { 
-    id: 'injury-insights', 
-    label: 'Injury Insights', 
-    icon: AssessmentOutlined, 
-    path: '/injury-insights',
-    section: 'main'
-  },
-  { 
-    id: 'analysis', 
-    label: 'Analysis', 
-    icon: AnalyticsOutlined, 
-    path: '/analysis',
-    section: 'main'
-  },
-  { 
-    id: 'athletes', 
-    label: 'Athletes', 
+    id: 'roster-overview', 
+    label: 'Roster overview', 
     icon: PeopleOutlined, 
-    path: '/athlete',
+    path: '/roster-overview',
     section: 'main'
   },
   { 
-    id: 'workload', 
-    label: 'Workload', 
+    id: 'injury-review', 
+    label: 'Injury review', 
+    icon: LocalHospitalOutlined, 
+    path: '/injury-review',
+    section: 'main'
+  },
+  { 
+    id: 'training-development', 
+    label: 'Training development', 
     icon: FitnessCenterOutlined, 
-    path: '/workloads',
+    path: '/training-development',
     section: 'main'
   },
   { 
-    id: 'forms', 
-    label: 'Forms', 
-    icon: AssignmentOutlined, 
-    path: '/questionnaires',
-    section: 'main'
-  },
-  { 
-    id: 'calendar', 
-    label: 'Calendar', 
-    icon: CalendarMonthOutlined, 
-    path: '/planning',
-    section: 'main'
-  },
-  { 
-    id: 'activity-log', 
-    label: 'Activity log', 
-    icon: HistoryOutlined, 
-    path: '/activity',
-    section: 'main'
-  },
-  { 
-    id: 'admin', 
-    label: 'Admin', 
-    icon: SettingsOutlined, 
-    path: '/settings',
+    id: 'notifications', 
+    label: 'Notifications', 
+    icon: NotificationsOutlined, 
+    path: '/notifications',
     section: 'main'
   }
 ]
 
-const bottomItems = [
-  { 
-    id: 'help', 
-    label: 'Help', 
-    icon: HelpOutlined, 
-    path: '/help'
-  }
-]
-
-const DRAWER_WIDTH = 240
-const DRAWER_WIDTH_COLLAPSED = 60
-
-function MainNavigation({ 
-  isOpen = true, 
-  onToggle, 
-  variant = 'permanent',
-  ...props 
-}) {
+function MainNavigation({ isCollapsed, onToggleCollapse }) {
   const location = useLocation()
   const navigate = useNavigate()
 
-  const handleItemClick = (path) => {
+  const handleNavigation = (path) => {
     navigate(path)
   }
 
-  const renderNavItem = (item, isCollapsed = false) => {
-    const isActive = location.pathname === item.path
-    const IconComponent = item.icon
-
-    return (
-      <ListItem 
-        key={item.id} 
-        disablePadding 
-        sx={{ display: 'block' }}
-      >
-        <Tooltip 
-          title={isCollapsed ? item.label : ''} 
-          placement="right"
-          disableHoverListener={!isCollapsed}
-        >
-          <ListItemButton
-            onClick={() => handleItemClick(item.path)}
-            sx={{
-              height: 40,
-              justifyContent: isCollapsed ? 'center' : 'initial',
-              pl: 2,
-              py: 1,
-              ml: 1, mr: 0,
-              mb: 0.5,
-              position: 'relative',
-              backgroundColor: isActive ? 'rgba(255, 255, 255, 0.05)' : 'transparent',
-              color: '#ffffff',
-              '&::before': isActive ? {
-                content: '""',
-                position: 'absolute',
-                left: 0,
-                top: 0,
-                bottom: 0,
-                width: '3px',
-                backgroundColor: '#ffffff',
-                borderRadius: '0 2px 2px 0'
-              } : {},
-              '&:hover': {
-                backgroundColor: 'rgba(255, 255, 255, 0.1)',
-                color: '#ffffff'
-              },
-              transition: 'all 0.2s ease'
-            }}
-          >
-            <ListItemIcon
-              sx={{
-                minWidth: 0,
-                mr: isCollapsed ? 0 : 2,
-                justifyContent: 'center',
-                color: 'inherit'
-              }}
-            >
-              <IconComponent sx={{ fontSize: 20 }} />
-            </ListItemIcon>
-            <ListItemText 
-              primary={item.label}
-              sx={{ 
-                opacity: isCollapsed ? 0 : 1,
-                '& .MuiTypography-root': {
-                  fontSize: '14px',
-                  fontWeight: 400,
-                  textTransform: 'none'
-                }
-              }} 
-            />
-          </ListItemButton>
-        </Tooltip>
-      </ListItem>
-    )
+  const isActive = (path) => {
+    return location.pathname === path
   }
-
-  const drawerContent = (
-    <Box
-      sx={{
-        width: isOpen ? DRAWER_WIDTH : DRAWER_WIDTH_COLLAPSED,
-        height: '100vh',
-        background: 'linear-gradient(180deg, #000000 0%, #111111 40%, #000000 70%, #040037ff 90%, #040037ff 100%)',
-        color: '#ffffff',
-        display: 'flex',
-        flexDirection: 'column'
-      }}
-    >
-      {/* Header with Logo */}
-      <Box
-        sx={{
-          display: 'flex',
-          alignItems: 'center',
-          justifyContent: isOpen ? 'flex-start' : 'center',
-          p: 2,
-          minHeight: 32
-        }}
-      >
-        <Box
-          sx={{
-            width: isOpen ? 'auto' : 32,
-            height: 32,
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'center'
-          }}
-        >
-          <img
-            src={KitmanLogo}
-            alt="Kitman Labs"
-            style={{
-              height: '100%',
-              width: 'auto',
-              objectFit: 'contain'
-            }}
-          />
-        </Box>
-      </Box>
-
-      {/* Main Navigation Items */}
-      <Box sx={{ flex: 1, overflow: 'auto' }}>
-        <List sx={{ py: 1 }}>
-          {navigationItems.map((item) => renderNavItem(item, !isOpen))}
-        </List>
-      </Box>
-
-      {/* Bottom Items */}
-      <Box>
-        <List sx={{ py: 1 }}>
-          {bottomItems.map((item) => renderNavItem(item, !isOpen))}
-        </List>
-        
-        {/* Collapse/Expand Button - Only at bottom, left aligned */}
-        <Box sx={{ p: 1, textAlign: 'left', pl: 2 }}>
-          <IconButton
-            onClick={onToggle}
-            sx={{ 
-              color: '#9ca3af',
-              '&:hover': { color: '#ffffff' },
-              p: 0.5
-            }}
-          >
-            {isOpen ? <ChevronLeftOutlined /> : <ChevronRightOutlined />}
-          </IconButton>
-        </Box>
-      </Box>
-    </Box>
-  )
 
   return (
     <Drawer
-      variant={variant}
-      open={isOpen}
-      onClose={onToggle}
+      variant="permanent"
       sx={{
-        width: isOpen ? DRAWER_WIDTH : DRAWER_WIDTH_COLLAPSED,
+        width: isCollapsed ? 64 : 240,
         flexShrink: 0,
-        mr: 0,
         '& .MuiDrawer-paper': {
-          marginRight: 0,
-
-          width: isOpen ? DRAWER_WIDTH : DRAWER_WIDTH_COLLAPSED,
+          width: isCollapsed ? 64 : 240,
           boxSizing: 'border-box',
-          border: 'none',
-          boxShadow: '0 4px 6px -1px rgba(0, 0, 0, 0.1)',
-          transition: 'none'
+          backgroundColor: 'var(--color-primary)',
+          color: 'white',
+          borderRight: 'none',
+          transition: 'width 0.2s ease-in-out'
         }
       }}
-      {...props}
     >
-      {drawerContent}
+      <Box sx={{ 
+        display: 'flex', 
+        flexDirection: 'column', 
+        height: '100%',
+        p: isCollapsed ? 1 : 2
+      }}>
+        
+        {/* NFL Logo Section */}
+        <Box sx={{ 
+          display: 'flex', 
+          alignItems: 'center', 
+          justifyContent: isCollapsed ? 'center' : 'space-between',
+          mb: 3,
+          minHeight: 48
+        }}>
+          {!isCollapsed && (
+            <Box sx={{ display: 'flex', alignItems: 'center' }}>
+              <Box
+                component="img"
+                src="/public/assets/logos/nfl.png"
+                alt="NFL"
+                sx={{
+                  height: 32,
+                  width: 'auto',
+                  filter: 'brightness(0) invert(1)'
+                }}
+                onError={(e) => {
+                  // Fallback to text if image fails to load
+                  e.target.style.display = 'none'
+                  e.target.nextSibling.style.display = 'block'
+                }}
+              />
+              <Typography
+                variant="h6"
+                sx={{
+                  ml: 1,
+                  fontWeight: 700,
+                  display: 'none',
+                  color: 'white'
+                }}
+              >
+                NFL
+              </Typography>
+            </Box>
+          )}
+          
+          <IconButton
+            onClick={onToggleCollapse}
+            sx={{
+              color: 'white',
+              '&:hover': {
+                backgroundColor: 'rgba(255, 255, 255, 0.1)'
+              }
+            }}
+          >
+            {isCollapsed ? <ChevronRightOutlined /> : <ChevronLeftOutlined />}
+          </IconButton>
+        </Box>
+
+        {/* Navigation Items */}
+        <List sx={{ flexGrow: 1 }}>
+          {navigationItems.map((item) => {
+            const IconComponent = item.icon
+            const active = isActive(item.path)
+            
+            return (
+              <ListItem key={item.id} disablePadding sx={{ mb: 1 }}>
+                <ListItemButton
+                  onClick={() => handleNavigation(item.path)}
+                  sx={{
+                    minHeight: 48,
+                    borderRadius: 1,
+                    mx: isCollapsed ? 0 : 1,
+                    backgroundColor: active ? 'rgba(255, 255, 255, 0.1)' : 'transparent',
+                    '&:hover': {
+                      backgroundColor: active ? 'rgba(255, 255, 255, 0.15)' : 'rgba(255, 255, 255, 0.05)'
+                    }
+                  }}
+                >
+                  <ListItemIcon sx={{ 
+                    minWidth: isCollapsed ? 'auto' : 40,
+                    color: 'white'
+                  }}>
+                    <IconComponent />
+                  </ListItemIcon>
+                  
+                  {!isCollapsed && (
+                    <ListItemText 
+                      primary={item.label}
+                      sx={{
+                        '& .MuiListItemText-primary': {
+                          fontSize: '0.875rem',
+                          fontWeight: active ? 600 : 400,
+                          textTransform: 'none'
+                        }
+                      }}
+                    />
+                  )}
+                </ListItemButton>
+                
+                {isCollapsed && (
+                  <Tooltip title={item.label} placement="right">
+                    <Box />
+                  </Tooltip>
+                )}
+              </ListItem>
+            )
+          })}
+        </List>
+      </Box>
     </Drawer>
   )
 }
 
 MainNavigation.propTypes = {
-  isOpen: PropTypes.bool,
-  onToggle: PropTypes.func,
-  variant: PropTypes.oneOf(['permanent', 'persistent', 'temporary'])
+  isCollapsed: PropTypes.bool.isRequired,
+  onToggleCollapse: PropTypes.func.isRequired
 }
 
 export default MainNavigation

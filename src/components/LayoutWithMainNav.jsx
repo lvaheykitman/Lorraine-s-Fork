@@ -37,17 +37,11 @@ const availableSquads = [
 
 // Page titles mapping
 const pageTitles = {
-  '/dashboard': 'Dashboard',
-  '/medical': 'Medical',
-  '/injury-insights': 'Injury Insights',
-  '/analysis': 'Analysis',
-  '/athlete': 'Athletes',
-  '/workloads': 'Workload',
-  '/questionnaires': 'Forms',
-  '/planning': 'Calendar',
-  '/activity': 'Activity log',
-  '/settings': 'Admin',
-  '/help': 'Help'
+  '/': 'Roster Overview',
+  '/roster-overview': 'Roster Overview',
+  '/injury-review': 'Injury Review',
+  '/training-development': 'Training Development',
+  '/notifications': 'Notifications'
 }
 
 function MedinahLayoutWithMainNav({ children }) {
@@ -83,9 +77,8 @@ function MedinahLayoutWithMainNav({ children }) {
       <Box sx={{ display: 'flex', gap: 0, height: '100vh', bgcolor: '#f8f9fa' }}>
       {/* Main Navigation */}
       <MainNavigation 
-        isOpen={isNavOpen}
-        onToggle={handleNavToggle}
-        variant="permanent"
+        isCollapsed={!isNavOpen}
+        onToggleCollapse={handleNavToggle}
       />
 
       {/* Main Content Area */}

@@ -11,12 +11,14 @@ export { default as PlayerAvatar } from './PlayerAvatar'
 export { default as LogoImage } from './LogoImage'
 export { default as MainNavigation } from './MainNavigation'
 export { default as AthleteDataGrid } from './AthleteDataGrid'
+export { default as AthleteForm } from './AthleteForm'
 
 // Usage Examples:
-// import { Button, Icon, Card, PlayerAvatar, LogoImage } from '../components'
+// import { Button, Icon, Card, PlayerAvatar, LogoImage, AthleteForm } from '../components'
 // 
 // <Button variant="primary" size="small">Add athlete</Button>
 // <Icon icon="dashboard" size="medium" />
 // <Card title="Athletes">Card content</Card>
 // <PlayerAvatar playerId="123" playerName="John Smith" size="medium" />
 // <LogoImage type="team" logoId="arsenal" league="premier-league" height={40} />
+// <AthleteForm onSubmit={handleSubmit} mode="create" />
