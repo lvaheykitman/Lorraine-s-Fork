@@ -2,6 +2,7 @@ import { Routes, Route } from 'react-router-dom'
 import LayoutWithMainNav from './components/LayoutWithMainNav'
 import SimplePage from './pages/SimplePage'
 import Athletes from './pages/Athletes'
+import InjuryInsights from './pages/InjuryInsights'
 
 function App() {
   return (
@@ -10,6 +11,7 @@ function App() {
         <Route path="/" element={<SimplePage pageName="Home" />} />
         <Route path="/dashboard" element={<SimplePage pageName="Dashboard" />} />
         <Route path="/medical" element={<SimplePage pageName="Medical" />} />
+        <Route path="/injury-insights" element={<InjuryInsights />} />
         <Route path="/analysis" element={<SimplePage pageName="Analysis" />} />
         <Route path="/athlete" element={<Athletes />} />
         <Route path="/workloads" element={<SimplePage pageName="Workload" />} />

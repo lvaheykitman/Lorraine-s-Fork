@@ -24,7 +24,8 @@ import {
   SettingsOutlined,
   HelpOutlined,
   ChevronLeftOutlined,
-  ChevronRightOutlined
+  ChevronRightOutlined,
+  AssessmentOutlined
 } from '@mui/icons-material'
 import '../styles/design-tokens.css'
 
@@ -35,6 +36,13 @@ const navigationItems = [
     label: 'Medical', 
     icon: LocalHospitalOutlined, 
     path: '/medical',
+    section: 'main'
+  },
+  { 
+    id: 'injury-insights', 
+    label: 'Injury Insights', 
+    icon: AssessmentOutlined, 
+    path: '/injury-insights',
     section: 'main'
   },
   { 

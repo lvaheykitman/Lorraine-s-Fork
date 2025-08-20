@@ -39,6 +39,7 @@ const availableSquads = [
 const pageTitles = {
   '/dashboard': 'Dashboard',
   '/medical': 'Medical',
+  '/injury-insights': 'Injury Insights',
   '/analysis': 'Analysis',
   '/athlete': 'Athletes',
   '/workloads': 'Workload',
