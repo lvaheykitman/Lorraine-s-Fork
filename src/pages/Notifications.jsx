@@ -1,14 +1,14 @@
 import React from 'react'
 import { Box, Typography, Paper } from '@mui/material'
 import { NotificationsOutlined } from '@mui/icons-material'
-import '../styles/design-tokens.css'
+
 
 function Notifications() {
   return (
     <Box sx={{ p: 3 }}>
       <Box sx={{ display: 'flex', alignItems: 'center', mb: 3 }}>
-        <NotificationsOutlined sx={{ fontSize: 32, color: 'var(--color-primary)', mr: 2 }} />
-        <Typography variant="h4" sx={{ color: 'var(--color-primary)' }}>
+        <NotificationsOutlined sx={{ fontSize: 32, color: 'primary.main', mr: 2 }} />
+        <Typography variant="h4" sx={{ color: 'primary.main' }}>
           Notifications
         </Typography>
       </Box>

@@ -1,52 +1,46 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import '../styles/design-tokens.css'
+import { Button as MuiButton } from '@mui/material'
 
 /**
  * Medinah Design System Button Component
  * 
- * Always uses filled variant, small size, and sentence case text
- * Adheres to Medinah brand guidelines automatically
+ * Uses MUI Button with Medinah design system styling
+ * Always uses sentence case text and adheres to brand guidelines
  */
 function MedinahButton({ 
   children, 
-  variant = 'primary', 
+  variant = 'contained', 
   size = 'small', 
   disabled = false, 
   onClick, 
   type = 'button',
-  className = '',
+  color = 'primary',
   ...props 
 }) {
-  const baseClass = 'btn'
-  const variantClass = `btn-${variant}`
-  const sizeClass = size === 'small' ? 'btn-small' : ''
-  
-  const buttonClasses = [baseClass, variantClass, sizeClass, className]
-    .filter(Boolean)
-    .join(' ')
-
   return (
-    <button
-      type={type}
-      className={buttonClasses}
+    <MuiButton
+      variant={variant}
+      size={size}
       disabled={disabled}
       onClick={onClick}
+      type={type}
+      color={color}
       {...props}
     >
       {children}
-    </button>
+    </MuiButton>
   )
 }
 
 MedinahButton.propTypes = {
   children: PropTypes.node.isRequired,
-  variant: PropTypes.oneOf(['primary', 'secondary']),
-  size: PropTypes.oneOf(['small', 'medium']),
+  variant: PropTypes.oneOf(['contained', 'outlined', 'text']),
+  size: PropTypes.oneOf(['small', 'medium', 'large']),
   disabled: PropTypes.bool,
   onClick: PropTypes.func,
   type: PropTypes.oneOf(['button', 'submit', 'reset']),
-  className: PropTypes.string
+  color: PropTypes.oneOf(['primary', 'secondary', 'success', 'error', 'warning', 'info'])
 }
 
 export default MedinahButton

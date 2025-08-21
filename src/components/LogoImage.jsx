@@ -1,13 +1,13 @@
 import React, { useState } from 'react'
 import PropTypes from 'prop-types'
+import { Box, Typography } from '@mui/material'
 import { getOrganizationLogo, getTeamLogo } from '../utils/assetManager'
-import '../styles/design-tokens.css'
 
 /**
  * Logo Image Component with fallback handling
  * 
+ * Uses MUI components for consistent styling
  * Displays organization or team logos with proper fallbacks
- * Maintains aspect ratio and provides loading states
  */
 function LogoImage({ 
   type = 'organization',
@@ -16,7 +16,6 @@ function LogoImage({
   alt = '',
   width = 'auto',
   height = 32,
-  className = '',
   showFallback = true,
   ...props 
 }) {
@@ -44,102 +43,96 @@ function LogoImage({
     setImageLoaded(true)
   }
 
-  const logoClasses = [
-    'logo-image',
-    `logo-image--${type}`,
-    className
-  ].filter(Boolean).join(' ')
-
-  const containerStyles = {
-    display: 'inline-flex',
-    alignItems: 'center',
-    justifyContent: 'center',
-    width: width,
-    height: height,
-    position: 'relative'
-  }
-
-  const imageStyles = {
-    maxWidth: '100%',
-    maxHeight: '100%',
-    width: 'auto',
-    height: 'auto',
-    opacity: imageLoaded ? 1 : 0,
-    transition: 'opacity 0.2s ease'
-  }
-
   // Fallback placeholder
   const renderFallback = () => {
     if (!showFallback) return null
 
     return (
-      <div style={{
-        width: '100%',
-        height: '100%',
-        backgroundColor: 'var(--color-background-tertiary)',
-        borderRadius: 'var(--radius-sm)',
-        display: 'flex',
-        alignItems: 'center',
-        justifyContent: 'center',
-        border: '1px solid var(--color-border-primary)'
-      }}>
-        <span style={{
-          fontSize: '10px',
-          color: 'var(--color-text-muted)',
-          fontWeight: 'var(--font-weight-medium)',
-          textAlign: 'center',
-          padding: '4px'
-        }}>
+      <Box
+        sx={{
+          width: '100%',
+          height: '100%',
+          bgcolor: 'grey.100',
+          borderRadius: 1,
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'center',
+          border: '1px solid',
+          borderColor: 'grey.300'
+        }}
+      >
+        <Typography
+          variant="caption"
+          sx={{
+            color: 'text.secondary',
+            fontWeight: 500,
+            textAlign: 'center',
+            px: 0.5
+          }}
+        >
           {type === 'team' ? 'TEAM' : 'LOGO'}
-        </span>
-      </div>
+        </Typography>
+      </Box>
     )
   }
 
   // Loading placeholder
   const renderLoading = () => (
-    <div style={{
-      position: 'absolute',
-      top: 0,
-      left: 0,
-      right: 0,
-      bottom: 0,
-      display: 'flex',
-      alignItems: 'center',
-      justifyContent: 'center',
-      backgroundColor: 'var(--color-background-tertiary)',
-      borderRadius: 'var(--radius-sm)'
-    }}>
-      <span style={{ 
-        fontSize: '10px', 
-        color: 'var(--color-text-muted)' 
-      }}>
+    <Box
+      sx={{
+        position: 'absolute',
+        top: 0,
+        left: 0,
+        right: 0,
+        bottom: 0,
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'center',
+        bgcolor: 'grey.100',
+        borderRadius: 1
+      }}
+    >
+      <Typography variant="caption" color="text.secondary">
         ...
-      </span>
-    </div>
+      </Typography>
+    </Box>
   )
 
   return (
-    <div 
-      className={logoClasses}
-      style={containerStyles}
+    <Box
+      sx={{
+        display: 'inline-flex',
+        alignItems: 'center',
+        justifyContent: 'center',
+        width: width,
+        height: height,
+        position: 'relative'
+      }}
       {...props}
     >
       {imageError ? (
         renderFallback()
       ) : (
         <>
-          <img
+          <Box
+            component="img"
             src={logoSrc}
             alt={alt || `${type} logo`}
             onError={handleImageError}
             onLoad={handleImageLoad}
-            style={imageStyles}
+            sx={{
+              maxWidth: '100%',
+              maxHeight: '100%',
+              width: 'auto',
+              height: 'auto',
+              opacity: imageLoaded ? 1 : 0,
+              transition: 'opacity 0.2s ease'
+            }}
           />
           {!imageLoaded && renderLoading()}
         </>
       )}
-    </div>
+    </Box>
   )
 }
 
@@ -150,7 +143,6 @@ LogoImage.propTypes = {
   alt: PropTypes.string,
   width: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
   height: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
-  className: PropTypes.string,
   showFallback: PropTypes.bool
 }
 

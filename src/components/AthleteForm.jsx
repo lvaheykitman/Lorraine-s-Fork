@@ -12,8 +12,8 @@ import {
   Paper,
   Alert
 } from '@mui/material'
-import { Button } from './index'
-import '../styles/design-tokens.css'
+import { Button } from './Button'
+
 
 /**
  * Athlete Form Component using Medinah Design System
@@ -147,7 +147,7 @@ function AthleteForm({ onSubmit, initialData = {}, mode = 'create' }) {
 
   return (
     <Paper sx={{ p: 3, maxWidth: 800, mx: 'auto' }}>
-      <Typography variant="h5" gutterBottom sx={{ color: 'var(--color-primary)' }}>
+              <Typography variant="h5" gutterBottom sx={{ color: 'primary.main' }}>
         {mode === 'create' ? 'Add new athlete' : 'Edit athlete'}
       </Typography>
       
@@ -326,7 +326,8 @@ function AthleteForm({ onSubmit, initialData = {}, mode = 'create' }) {
         {/* Form Actions */}
         <Box sx={{ mt: 4, display: 'flex', gap: 2, justifyContent: 'flex-end' }}>
           <Button
-            variant="secondary"
+            variant="outlined"
+            color="secondary"
             onClick={handleReset}
             disabled={isSubmitting}
           >
@@ -334,7 +335,8 @@ function AthleteForm({ onSubmit, initialData = {}, mode = 'create' }) {
           </Button>
           
           <Button
-            variant="primary"
+            variant="contained"
+            color="primary"
             type="submit"
             disabled={isSubmitting}
           >

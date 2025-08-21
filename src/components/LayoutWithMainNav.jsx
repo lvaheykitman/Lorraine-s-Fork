@@ -17,7 +17,7 @@ import {
   Notifications
 } from '@mui/icons-material'
 import MainNavigation from './MainNavigation'
-import '../styles/design-tokens.css'
+
 
 // Mock current user data
 const currentUser = {
@@ -107,11 +107,11 @@ function MedinahLayoutWithMainNav({ children }) {
             <Typography 
               variant="h6" 
               component="h1"
-              sx={{ 
-                fontWeight: 600,
-                color: 'var(--color-text-primary)',
-                textTransform: 'none'
-              }}
+                          sx={{ 
+              fontWeight: 600,
+              color: 'text.primary',
+              textTransform: 'none'
+            }}
             >
               {getPageTitle()}
             </Typography>
@@ -149,7 +149,7 @@ function MedinahLayoutWithMainNav({ children }) {
               {/* Notifications */}
               <IconButton 
                 sx={{ 
-                  color: 'var(--color-text-secondary)',
+                  color: 'text.secondary',
                   '&:hover': { 
                     bgcolor: 'rgba(0, 0, 0, 0.04)' 
                   }

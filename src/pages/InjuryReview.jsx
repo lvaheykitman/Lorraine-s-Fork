@@ -49,7 +49,7 @@ import {
   PeopleOutlined,
   AssessmentOutlined
 } from '@mui/icons-material'
-import '../styles/design-tokens.css'
+
 
 // Mock data for different injury datasets
 const injuryDatasets = {
@@ -189,7 +189,7 @@ function InjuryReview() {
     if (active && payload && payload.length) {
       const data = payload[0].payload
       return (
-        <Paper sx={{ p: 2, border: '1px solid var(--color-border-primary)' }}>
+        <Paper sx={{ p: 2, border: '1px solid', borderColor: 'divider' }}>
           <Typography variant="subtitle2" sx={{ fontWeight: 600, mb: 1 }}>
             {label}
           </Typography>
@@ -217,10 +217,10 @@ function InjuryReview() {
           {data.change && (
             <Typography 
               variant="body2" 
-              sx={{ 
-                color: data.change > 0 ? 'var(--color-error)' : 'var(--color-success)',
-                fontWeight: 600
-              }}
+                          sx={{ 
+              color: data.change > 0 ? 'error.main' : 'success.main',
+              fontWeight: 600
+            }}
             >
               Change: {data.change > 0 ? '+' : ''}{data.change}%
             </Typography>
@@ -235,8 +235,8 @@ function InjuryReview() {
     <Box sx={{ p: 3 }}>
       {/* Page Header */}
       <Box sx={{ display: 'flex', alignItems: 'center', mb: 3 }}>
-        <LocalHospitalOutlined sx={{ fontSize: 32, color: 'var(--color-primary)', mr: 2 }} />
-        <Typography variant="h4" sx={{ color: 'var(--color-primary)' }}>
+                  <LocalHospitalOutlined sx={{ fontSize: 32, color: 'primary.main', mr: 2 }} />
+        <Typography variant="h4" sx={{ color: 'primary.main' }}>
           Injury review
         </Typography>
       </Box>
@@ -371,13 +371,13 @@ function InjuryReview() {
       </Paper>
 
       {/* AI Insights */}
-      <Paper sx={{ p: 3, mb: 3, bgcolor: 'var(--color-background-secondary)' }}>
-        <Box sx={{ display: 'flex', alignItems: 'center', mb: 2 }}>
-          <AssessmentOutlined sx={{ color: 'var(--color-primary)', mr: 1 }} />
-          <Typography variant="h6" sx={{ color: 'var(--color-primary)' }}>
-            AI insights
-          </Typography>
-        </Box>
+              <Paper sx={{ p: 3, mb: 3, bgcolor: 'grey.50' }}>
+          <Box sx={{ display: 'flex', alignItems: 'center', mb: 2 }}>
+            <AssessmentOutlined sx={{ color: 'primary.main', mr: 1 }} />
+            <Typography variant="h6" sx={{ color: 'primary.main' }}>
+              AI insights
+            </Typography>
+          </Box>
         <Typography variant="body1">
           {currentDataset.insight}
         </Typography>

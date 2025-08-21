@@ -1,36 +1,37 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import '../styles/design-tokens.css'
+import { Card as MuiCard, CardContent, CardHeader, Typography } from '@mui/material'
 
 /**
  * Medinah Design System Card Component
  * 
- * Pre-styled card component that follows Medinah design guidelines
+ * Uses MUI Card with Medinah design system styling
  * Includes consistent spacing, colors, and layout
  */
-function MedinahCard({ title, children, className = '', ...props }) {
-  const cardClasses = ['dashboard-card', className]
-    .filter(Boolean)
-    .join(' ')
-
+function MedinahCard({ title, children, subtitle, action, ...props }) {
   return (
-    <div className={cardClasses} {...props}>
+    <MuiCard {...props}>
       {title && (
-        <div className="card-header">
-          <h3>{title}</h3>
-        </div>
+        <CardHeader
+          title={title}
+          subtitle={subtitle}
+          action={action}
+          titleTypographyProps={{ variant: 'h6' }}
+          subtitleTypographyProps={{ variant: 'body2' }}
+        />
       )}
-      <div className="card-content">
+      <CardContent>
         {children}
-      </div>
-    </div>
+      </CardContent>
+    </MuiCard>
   )
 }
 
 MedinahCard.propTypes = {
   title: PropTypes.string,
+  subtitle: PropTypes.string,
   children: PropTypes.node.isRequired,
-  className: PropTypes.string
+  action: PropTypes.node
 }
 
 export default MedinahCard

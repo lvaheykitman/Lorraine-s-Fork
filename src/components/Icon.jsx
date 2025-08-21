@@ -1,34 +1,46 @@
 import React from 'react'
 import PropTypes from 'prop-types'
+import { SvgIcon } from '@mui/material'
+import * as MaterialIcons from '@mui/icons-material'
 
 /**
  * Medinah Design System Icon Component
  * 
- * Always uses Material Icons Outlined
+ * Uses MUI Material Icons with consistent sizing
  * Ensures consistent icon usage across the design system
  */
-function MedinahIcon({ icon, size = 'medium', className = '', ...props }) {
-  const sizeClass = {
-    small: 'icon-small',
-    medium: 'icon-medium', 
-    large: 'icon-large'
-  }[size]
+function MedinahIcon({ icon, size = 'medium', color = 'inherit', ...props }) {
+  const IconComponent = MaterialIcons[icon]
+  
+  const sizeMap = {
+    small: 16,
+    medium: 20,
+    large: 24
+  }
 
-  const iconClasses = ['material-icons-outlined', sizeClass, className]
-    .filter(Boolean)
-    .join(' ')
+  if (!IconComponent) {
+    console.warn(`Icon "${icon}" not found in Material Icons`)
+    return null
+  }
 
   return (
-    <span className={iconClasses} {...props}>
-      {icon}
-    </span>
+    <SvgIcon
+      component={IconComponent}
+      fontSize={size}
+      sx={{ 
+        width: sizeMap[size], 
+        height: sizeMap[size],
+        color: color
+      }}
+      {...props}
+    />
   )
 }
 
 MedinahIcon.propTypes = {
   icon: PropTypes.string.isRequired,
   size: PropTypes.oneOf(['small', 'medium', 'large']),
-  className: PropTypes.string
+  color: PropTypes.string
 }
 
 export default MedinahIcon

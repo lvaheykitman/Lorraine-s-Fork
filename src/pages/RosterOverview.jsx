@@ -17,7 +17,7 @@ import {
   TrendingUpOutlined,
   TrendingDownOutlined
 } from '@mui/icons-material'
-import '../styles/design-tokens.css'
+
 
 // Mock data for Arizona Cardinals
 const teamData = {
@@ -81,7 +81,7 @@ function RosterOverview() {
   return (
     <Box sx={{ p: 3 }}>
       {/* Page Title */}
-      <Typography variant="h4" gutterBottom sx={{ color: 'var(--color-primary)', mb: 3 }}>
+      <Typography variant="h4" gutterBottom sx={{ color: 'primary.main', mb: 3 }}>
         Roster overview
       </Typography>
 
@@ -126,9 +126,8 @@ function RosterOverview() {
         <Grid item xs={12} md={4}>
           <Card sx={{ 
             height: '100%',
-            border: '1px solid var(--color-border-primary)',
             '&:hover': {
-              boxShadow: '0 4px 12px rgba(0,0,0,0.1)',
+              boxShadow: 3,
               transform: 'translateY(-2px)',
               transition: 'all 0.2s ease-in-out'
             }
@@ -143,14 +142,14 @@ function RosterOverview() {
                 <LocalHospitalOutlined 
                   sx={{ 
                     fontSize: 40, 
-                    color: 'var(--color-error)',
+                    color: 'error.main',
                     mr: 1
                   }} 
                 />
               </Box>
               <Typography variant="h3" sx={{ 
                 fontWeight: 700, 
-                color: 'var(--color-error)',
+                color: 'error.main',
                 mb: 1
               }}>
                 {teamData.activeInjuries}
@@ -175,9 +174,8 @@ function RosterOverview() {
         <Grid item xs={12} md={4}>
           <Card sx={{ 
             height: '100%',
-            border: '1px solid var(--color-border-primary)',
             '&:hover': {
-              boxShadow: '0 4px 12px rgba(0,0,0,0.1)',
+              boxShadow: 3,
               transform: 'translateY(-2px)',
               transition: 'all 0.2s ease-in-out'
             }
@@ -192,14 +190,14 @@ function RosterOverview() {
                 <SickOutlined 
                   sx={{ 
                     fontSize: 40, 
-                    color: 'var(--color-warning)',
+                    color: 'warning.main',
                     mr: 1
                   }} 
                 />
               </Box>
               <Typography variant="h3" sx={{ 
                 fontWeight: 700, 
-                color: 'var(--color-warning)',
+                color: 'warning.main',
                 mb: 1
               }}>
                 {teamData.activeIllness}
@@ -224,9 +222,8 @@ function RosterOverview() {
         <Grid item xs={12} md={4}>
           <Card sx={{ 
             height: '100%',
-            border: '1px solid var(--color-border-primary)',
             '&:hover': {
-              boxShadow: '0 4px 12px rgba(0,0,0,0.1)',
+              boxShadow: 3,
               transform: 'translateY(-2px)',
               transition: 'all 0.2s ease-in-out'
             }
@@ -241,14 +238,14 @@ function RosterOverview() {
                 <FitnessCenterOutlined 
                   sx={{ 
                     fontSize: 40, 
-                    color: 'var(--color-success)',
+                    color: 'success.main',
                     mr: 1
                   }} 
                 />
               </Box>
               <Typography variant="h3" sx={{ 
                 fontWeight: 700, 
-                color: 'var(--color-success)',
+                color: 'success.main',
                 mb: 1
               }}>
                 {teamData.fitToPlayIndex}%
@@ -261,9 +258,9 @@ function RosterOverview() {
               </Typography>
               <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'center', mt: 1 }}>
                 {teamData.fitToPlayIndex >= 80 ? (
-                  <TrendingUpOutlined sx={{ color: 'var(--color-success)', mr: 0.5 }} />
+                  <TrendingUpOutlined sx={{ color: 'success.main', mr: 0.5 }} />
                 ) : (
-                  <TrendingDownOutlined sx={{ color: 'var(--color-error)', mr: 0.5 }} />
+                  <TrendingDownOutlined sx={{ color: 'error.main', mr: 0.5 }} />
                 )}
                 <Chip 
                   label={teamData.fitToPlayIndex >= 80 ? 'Good' : 'Needs attention'}
@@ -278,9 +275,9 @@ function RosterOverview() {
 
       {/* Health Status vs Availability Section */}
       <Paper sx={{ p: 3 }}>
-        <Typography variant="h5" gutterBottom sx={{ color: 'var(--color-primary)', mb: 3 }}>
-          Health status vs availability
-        </Typography>
+              <Typography variant="h5" gutterBottom sx={{ color: 'primary.main', mb: 3 }}>
+        Health status vs availability
+      </Typography>
 
         {/* Filter Chips */}
         <Box sx={{ mb: 3 }}>
@@ -309,9 +306,8 @@ function RosterOverview() {
             <Grid item xs={12} sm={6} md={4} lg={3} key={player.id}>
               <Card sx={{ 
                 p: 2,
-                border: '1px solid var(--color-border-primary)',
                 '&:hover': {
-                  boxShadow: '0 2px 8px rgba(0,0,0,0.1)'
+                  boxShadow: 2
                 }
               }}>
                 <Box sx={{ display: 'flex', alignItems: 'center', mb: 2 }}>
@@ -319,7 +315,7 @@ function RosterOverview() {
                     width: 40, 
                     height: 40, 
                     mr: 2,
-                    bgcolor: 'var(--color-primary)'
+                    bgcolor: 'primary.main'
                   }}>
                     {player.name.split(' ').map(n => n[0]).join('')}
                   </Avatar>
