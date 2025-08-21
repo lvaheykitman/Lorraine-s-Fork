@@ -8,7 +8,13 @@ import {
   Avatar,
   Chip,
   Paper,
-  Divider
+  Divider,
+  Table,
+  TableBody,
+  TableCell,
+  TableContainer,
+  TableHead,
+  TableRow
 } from '@mui/material'
 import {
   LocalHospitalOutlined,
@@ -17,6 +23,7 @@ import {
   TrendingUpOutlined,
   TrendingDownOutlined
 } from '@mui/icons-material'
+import Logo from '../assets/nfl-arizona-cardinals-team-logo-2-768x768.svg'
 
 
 // Mock data for Arizona Cardinals
@@ -39,6 +46,34 @@ const players = [
   { id: 6, name: 'Zach Ertz', position: 'TE', status: 'healthy', availability: 'available' },
   { id: 7, name: 'Marquise Brown', position: 'WR', status: 'injured', availability: 'questionable' },
   { id: 8, name: 'Byron Murphy', position: 'CB', status: 'healthy', availability: 'available' }
+]
+
+// Mock medical alerts data
+const medicalAlerts = [
+  {
+    player: 'WR #11 – J. Smith',
+    status: 'Doubtful',
+    issue: 'Hamstring strain (Grade I) sustained in practice',
+    timeline: 'Will miss remainder of this week\'s practices; unlikely for Sunday, reassess in 48 hrs'
+  },
+  {
+    player: 'RB #23 – M. Johnson',
+    status: 'Questionable',
+    issue: 'Ankle sprain during game',
+    timeline: 'Limited practice expected; game-time decision'
+  },
+  {
+    player: 'CB #21 – A. Williams',
+    status: 'Out',
+    issue: 'Concussion protocol',
+    timeline: 'Will not play this week; cleared for next week'
+  },
+  {
+    player: 'DE #99 – R. Davis',
+    status: 'Probable',
+    issue: 'Minor shoulder soreness',
+    timeline: 'Full practice expected; will play Sunday'
+  }
 ]
 
 function RosterOverview() {
@@ -80,204 +115,181 @@ function RosterOverview() {
 
   return (
     <Box sx={{ p: 3 }}>
-      {/* Page Title */}
-      <Typography variant="h4" gutterBottom sx={{ color: 'primary.main', mb: 3 }}>
+      {/* Row 1: Header */}
+      <Box sx={{ mb: 2 }}>
+        {/* Header content can be added here */}
+      </Box>
+
+      {/* Row 2: H1 Title - Reduced by 30% and bold */}
+      <Typography 
+        variant="h4" 
+        gutterBottom 
+        sx={{ 
+          color: 'primary.main', 
+          mb: 3,
+          fontSize: '1.225rem', // 30% reduction from h4 (1.75rem * 0.7)
+          fontWeight: 700 // Bold
+        }}
+      >
         Roster overview
       </Typography>
 
-      {/* Team Banner */}
+      {/* Row 3: Team Banner with Cards */}
       <Paper 
         sx={{ 
           p: 3, 
           mb: 3, 
-          background: 'linear-gradient(135deg, #97233F 0%, #000000 100%)',
-          color: 'white',
-          borderRadius: 2
+          background: 'linear-gradient(135deg, #97233F 0%, rgba(255,255,255,0.4) 70%, #ffffff 100%)', // Less concentrated gradient
+          borderRadius: 2,
+          position: 'relative'
         }}
       >
-        <Box sx={{ display: 'flex', alignItems: 'center', mb: 2 }}>
-          <Avatar
-            src={teamData.logo}
-            alt={teamData.name}
+        {/* Team Info */}
+        <Box sx={{ display: 'flex', alignItems: 'center', mb: 3 }}>
+          <Box
+            component="img"
+            src={Logo}
+            alt="Arizona Cardinals"
             sx={{ 
               width: 60, 
               height: 60, 
-              mr: 2,
-              border: '2px solid white',
-              bgcolor: '#97233F'
+              mr: 2
             }}
-          >
-            AC
-          </Avatar>
+          />
           <Box>
-            <Typography variant="h5" sx={{ fontWeight: 700 }}>
-              {teamData.name}
+            <Typography variant="h4" sx={{ fontWeight: 700, color: '#1F2D44' }}>
+              Arizona Cardinals
             </Typography>
-            <Typography variant="body2" sx={{ opacity: 0.9 }}>
-              {teamData.totalPlayers} players on roster
+            <Typography variant="h6" sx={{ color: '#1F2D44' }}>
+              2025 season
             </Typography>
           </Box>
         </Box>
+
+        {/* Cards in Banner with white background */}
+        <Box sx={{ bgcolor: '#ffffff', borderRadius: 2, p: 2 }}>
+          <Grid container spacing={3}>
+            {/* Active Injuries Card */}
+            <Grid item xs={12} md={4}>
+              <Card sx={{ 
+                height: '100%',
+                boxShadow: 'none',
+                border: '1px solid #e0e0e0'
+              }}>
+                <CardContent sx={{ textAlign: 'left', p: 2 }}>
+                  <Typography variant="h3" sx={{ 
+                    fontWeight: 700, 
+                    color: '#dc3545',
+                    mb: 1
+                  }}>
+                    {teamData.activeInjuries}
+                  </Typography>
+                  <Typography variant="h6" sx={{ color: '#1F2D44', mb: 1 }}>
+                    Active injuries
+                  </Typography>
+                  <Typography variant="body2" sx={{ color: '#1F2D44' }}>
+                    {injuryPercentage}% of squad
+                  </Typography>
+                </CardContent>
+              </Card>
+            </Grid>
+
+            {/* Active Illness Card */}
+            <Grid item xs={12} md={4}>
+              <Card sx={{ 
+                height: '100%',
+                boxShadow: 'none',
+                border: '1px solid #e0e0e0'
+              }}>
+                <CardContent sx={{ textAlign: 'left', p: 2 }}>
+                  <Typography variant="h3" sx={{ 
+                    fontWeight: 700, 
+                    color: '#dc3545',
+                    mb: 1
+                  }}>
+                    {teamData.activeIllness}
+                  </Typography>
+                  <Typography variant="h6" sx={{ color: '#1F2D44', mb: 1 }}>
+                    Active illness
+                  </Typography>
+                  <Typography variant="body2" sx={{ color: '#1F2D44' }}>
+                    {illnessPercentage}% of squad
+                  </Typography>
+                </CardContent>
+              </Card>
+            </Grid>
+
+            {/* Fit-to-Play Index Card */}
+            <Grid item xs={12} md={4}>
+              <Card sx={{ 
+                height: '100%',
+                boxShadow: 'none',
+                border: '1px solid #e0e0e0'
+              }}>
+                <CardContent sx={{ textAlign: 'left', p: 2 }}>
+                  <Typography variant="h3" sx={{ 
+                    fontWeight: 700, 
+                    color: '#dc3545',
+                    mb: 1
+                  }}>
+                    {teamData.fitToPlayIndex}%
+                  </Typography>
+                  <Typography variant="h6" sx={{ color: '#1F2D44', mb: 1 }}>
+                    Fit-to-play index
+                  </Typography>
+                  <Typography variant="body2" sx={{ color: '#1F2D44' }}>
+                    Overall team readiness
+                  </Typography>
+                </CardContent>
+              </Card>
+            </Grid>
+          </Grid>
+        </Box>
       </Paper>
 
-      {/* Highlight Cards */}
-      <Grid container spacing={3} sx={{ mb: 4 }}>
-        {/* Active Injuries Card */}
-        <Grid item xs={12} md={4}>
-          <Card sx={{ 
-            height: '100%',
-            '&:hover': {
-              boxShadow: 3,
-              transform: 'translateY(-2px)',
-              transition: 'all 0.2s ease-in-out'
-            }
-          }}>
-            <CardContent sx={{ textAlign: 'center', p: 3 }}>
-              <Box sx={{ 
-                display: 'flex', 
-                alignItems: 'center', 
-                justifyContent: 'center', 
-                mb: 2 
-              }}>
-                <LocalHospitalOutlined 
-                  sx={{ 
-                    fontSize: 40, 
-                    color: 'error.main',
-                    mr: 1
-                  }} 
-                />
-              </Box>
-              <Typography variant="h3" sx={{ 
-                fontWeight: 700, 
-                color: 'error.main',
-                mb: 1
-              }}>
-                {teamData.activeInjuries}
-              </Typography>
-              <Typography variant="h6" gutterBottom>
-                Active injuries
-              </Typography>
-              <Typography variant="body2" color="text.secondary">
-                {injuryPercentage}% of squad
-              </Typography>
-              <Chip 
-                label={`${injuryPercentage}%`}
-                color="error"
-                size="small"
-                sx={{ mt: 1 }}
-              />
-            </CardContent>
-          </Card>
-        </Grid>
-
-        {/* Active Illness Card */}
-        <Grid item xs={12} md={4}>
-          <Card sx={{ 
-            height: '100%',
-            '&:hover': {
-              boxShadow: 3,
-              transform: 'translateY(-2px)',
-              transition: 'all 0.2s ease-in-out'
-            }
-          }}>
-            <CardContent sx={{ textAlign: 'center', p: 3 }}>
-              <Box sx={{ 
-                display: 'flex', 
-                alignItems: 'center', 
-                justifyContent: 'center', 
-                mb: 2 
-              }}>
-                <SickOutlined 
-                  sx={{ 
-                    fontSize: 40, 
-                    color: 'warning.main',
-                    mr: 1
-                  }} 
-                />
-              </Box>
-              <Typography variant="h3" sx={{ 
-                fontWeight: 700, 
-                color: 'warning.main',
-                mb: 1
-              }}>
-                {teamData.activeIllness}
-              </Typography>
-              <Typography variant="h6" gutterBottom>
-                Active illness
-              </Typography>
-              <Typography variant="body2" color="text.secondary">
-                {illnessPercentage}% of squad
-              </Typography>
-              <Chip 
-                label={`${illnessPercentage}%`}
-                color="warning"
-                size="small"
-                sx={{ mt: 1 }}
-              />
-            </CardContent>
-          </Card>
-        </Grid>
-
-        {/* Fit-to-Play Index Card */}
-        <Grid item xs={12} md={4}>
-          <Card sx={{ 
-            height: '100%',
-            '&:hover': {
-              boxShadow: 3,
-              transform: 'translateY(-2px)',
-              transition: 'all 0.2s ease-in-out'
-            }
-          }}>
-            <CardContent sx={{ textAlign: 'center', p: 3 }}>
-              <Box sx={{ 
-                display: 'flex', 
-                alignItems: 'center', 
-                justifyContent: 'center', 
-                mb: 2 
-              }}>
-                <FitnessCenterOutlined 
-                  sx={{ 
-                    fontSize: 40, 
-                    color: 'success.main',
-                    mr: 1
-                  }} 
-                />
-              </Box>
-              <Typography variant="h3" sx={{ 
-                fontWeight: 700, 
-                color: 'success.main',
-                mb: 1
-              }}>
-                {teamData.fitToPlayIndex}%
-              </Typography>
-              <Typography variant="h6" gutterBottom>
-                Fit-to-play index
-              </Typography>
-              <Typography variant="body2" color="text.secondary">
-                Overall team readiness
-              </Typography>
-              <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'center', mt: 1 }}>
-                {teamData.fitToPlayIndex >= 80 ? (
-                  <TrendingUpOutlined sx={{ color: 'success.main', mr: 0.5 }} />
-                ) : (
-                  <TrendingDownOutlined sx={{ color: 'error.main', mr: 0.5 }} />
-                )}
-                <Chip 
-                  label={teamData.fitToPlayIndex >= 80 ? 'Good' : 'Needs attention'}
-                  color={teamData.fitToPlayIndex >= 80 ? 'success' : 'error'}
-                  size="small"
-                />
-              </Box>
-            </CardContent>
-          </Card>
-        </Grid>
-      </Grid>
+      {/* Row 4: Medical Alerts and Notifications */}
+      <Paper sx={{ p: 3, mb: 3 }}>
+        <Typography variant="h5" gutterBottom sx={{ color: 'primary.main', mb: 3 }}>
+          Medical alerts and notifications
+        </Typography>
+        
+        <TableContainer>
+          <Table>
+            <TableHead>
+              <TableRow>
+                <TableCell sx={{ fontWeight: 600, color: '#1F2D44' }}>Player</TableCell>
+                <TableCell sx={{ fontWeight: 600, color: '#1F2D44' }}>Status</TableCell>
+                <TableCell sx={{ fontWeight: 600, color: '#1F2D44' }}>Issue</TableCell>
+                <TableCell sx={{ fontWeight: 600, color: '#1F2D44' }}>Timeline</TableCell>
+              </TableRow>
+            </TableHead>
+            <TableBody>
+              {medicalAlerts.map((alert, index) => (
+                <TableRow key={index} sx={{ '&:hover': { bgcolor: 'grey.50' } }}>
+                  <TableCell sx={{ color: '#1F2D44', fontWeight: 500 }}>
+                    {alert.player}
+                  </TableCell>
+                  <TableCell sx={{ color: '#1F2D44', fontWeight: 500 }}>
+                    {alert.status}
+                  </TableCell>
+                  <TableCell sx={{ color: '#1F2D44' }}>
+                    {alert.issue}
+                  </TableCell>
+                  <TableCell sx={{ color: '#1F2D44' }}>
+                    {alert.timeline}
+                  </TableCell>
+                </TableRow>
+              ))}
+            </TableBody>
+          </Table>
+        </TableContainer>
+      </Paper>
 
       {/* Health Status vs Availability Section */}
       <Paper sx={{ p: 3 }}>
-              <Typography variant="h5" gutterBottom sx={{ color: 'primary.main', mb: 3 }}>
-        Health status vs availability
-      </Typography>
+        <Typography variant="h5" gutterBottom sx={{ color: 'primary.main', mb: 3 }}>
+          Health status vs availability
+        </Typography>
 
         {/* Filter Chips */}
         <Box sx={{ mb: 3 }}>

@@ -22,7 +22,7 @@ import {
   ChevronRightOutlined
 } from '@mui/icons-material'
 import Logo from '../assets/NFL.svg'
-
+import '../styles/design-tokens.css'
 
 // Navigation items configuration for NFL theme
 const navigationItems = [
@@ -74,21 +74,21 @@ function MainNavigation({ isCollapsed, onToggleCollapse }) {
       sx={{
         width: isCollapsed ? 64 : 240,
         flexShrink: 0,
-                  '& .MuiDrawer-paper': {
-            width: isCollapsed ? 64 : 240,
-            boxSizing: 'border-box',
-            background: 'linear-gradient(180deg, rgba(0, 0, 0, 0.3) 0%, #3A8DEE 50%, rgba(0, 0, 0, 0.1) 100%)',
-            color: 'white',
-            borderRight: 'none',
-            transition: 'width 0.2s ease-in-out'
-          }
+        '& .MuiDrawer-paper': {
+          width: isCollapsed ? 64 : 240,
+          boxSizing: 'border-box',
+          background: 'linear-gradient(180deg, #3A8DEE 0%, rgba(0,0,0,0.3) 100%)',
+          color: 'white',
+          borderRight: 'none',
+          transition: 'width 0.2s ease-in-out'
+        }
       }}
     >
       <Box sx={{ 
         display: 'flex', 
         flexDirection: 'column', 
         height: '100%',
-        p: isCollapsed ? 0.5 : 1
+        p: isCollapsed ? 0.5 : 1 // Reduced padding by half
       }}>
         
         {/* NFL Logo Section */}
@@ -107,9 +107,26 @@ function MainNavigation({ isCollapsed, onToggleCollapse }) {
                 alt="NFL"
                 sx={{
                   height: 32,
-                  width: 'auto'
+                  width: 'auto',
+                  filter: 'brightness(0) invert(1)'
+                }}
+                onError={(e) => {
+                  // Fallback to text if image fails to load
+                  e.target.style.display = 'none'
+                  e.target.nextSibling.style.display = 'block'
                 }}
               />
+              <Typography
+                variant="h6"
+                sx={{
+                  ml: 1,
+                  fontWeight: 700,
+                  display: 'none',
+                  color: 'white'
+                }}
+              >
+                NFL
+              </Typography>
             </Box>
           )}
           
@@ -139,7 +156,7 @@ function MainNavigation({ isCollapsed, onToggleCollapse }) {
                   sx={{
                     minHeight: 48,
                     borderRadius: 1,
-                    mx: isCollapsed ? 0 : 0.5,
+                    mx: isCollapsed ? 0 : 0.5, // Reduced margin by half
                     backgroundColor: active ? 'rgba(255, 255, 255, 0.1)' : 'transparent',
                     '&:hover': {
                       backgroundColor: active ? 'rgba(255, 255, 255, 0.15)' : 'rgba(255, 255, 255, 0.05)'
