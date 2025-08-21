@@ -14,14 +14,23 @@ import {
   TableCell,
   TableContainer,
   TableHead,
-  TableRow
+  TableRow,
+  TextField,
+  Select,
+  MenuItem,
+  FormControl,
+  InputLabel,
+  Tabs,
+  Tab
 } from '@mui/material'
+import { DatePicker } from '@mui/x-date-pickers/DatePicker'
 import {
   LocalHospitalOutlined,
   SickOutlined,
   FitnessCenterOutlined,
   TrendingUpOutlined,
-  TrendingDownOutlined
+  TrendingDownOutlined,
+  Search
 } from '@mui/icons-material'
 import Logo from '../assets/nfl-arizona-cardinals-team-logo-2-768x768.svg'
 
@@ -38,14 +47,16 @@ const teamData = {
 
 // Mock player data for demonstration
 const players = [
-  { id: 1, name: 'Kyler Murray', position: 'QB', status: 'healthy', availability: 'available' },
-  { id: 2, name: 'James Conner', position: 'RB', status: 'injured', availability: 'questionable' },
-  { id: 3, name: 'DeAndre Hopkins', position: 'WR', status: 'healthy', availability: 'available' },
-  { id: 4, name: 'Budda Baker', position: 'S', status: 'ill', availability: 'out' },
-  { id: 5, name: 'J.J. Watt', position: 'DE', status: 'injured', availability: 'out' },
-  { id: 6, name: 'Zach Ertz', position: 'TE', status: 'healthy', availability: 'available' },
-  { id: 7, name: 'Marquise Brown', position: 'WR', status: 'injured', availability: 'questionable' },
-  { id: 8, name: 'Byron Murphy', position: 'CB', status: 'healthy', availability: 'available' }
+  { id: 1, name: 'Kyler Murray', position: 'QB', status: 'healthy', availability: 'available', roster: 'active' },
+  { id: 2, name: 'James Conner', position: 'RB', status: 'injured', availability: 'questionable', roster: 'active' },
+  { id: 3, name: 'DeAndre Hopkins', position: 'WR', status: 'healthy', availability: 'available', roster: 'active' },
+  { id: 4, name: 'Budda Baker', position: 'S', status: 'ill', availability: 'out', roster: 'active' },
+  { id: 5, name: 'J.J. Watt', position: 'DE', status: 'injured', availability: 'out', roster: 'injured-reserve' },
+  { id: 6, name: 'Zach Ertz', position: 'TE', status: 'healthy', availability: 'available', roster: 'active' },
+  { id: 7, name: 'Marquise Brown', position: 'WR', status: 'injured', availability: 'questionable', roster: 'active' },
+  { id: 8, name: 'Byron Murphy', position: 'CB', status: 'healthy', availability: 'available', roster: 'active' },
+  { id: 9, name: 'Practice Player 1', position: 'QB', status: 'healthy', availability: 'available', roster: 'practice-squad' },
+  { id: 10, name: 'Practice Player 2', position: 'WR', status: 'healthy', availability: 'available', roster: 'practice-squad' }
 ]
 
 // Mock medical alerts data
@@ -78,6 +89,10 @@ const medicalAlerts = [
 
 function RosterOverview() {
   const [selectedFilter, setSelectedFilter] = useState('all')
+  const [selectedDate, setSelectedDate] = useState(new Date())
+  const [selectedRoster, setSelectedRoster] = useState('active')
+  const [selectedPosition, setSelectedPosition] = useState('all')
+  const [searchQuery, setSearchQuery] = useState('')
 
   const getStatusColor = (status) => {
     switch (status) {
@@ -106,9 +121,22 @@ function RosterOverview() {
     }
   }
 
-  const filteredPlayers = selectedFilter === 'all' 
-    ? players 
-    : players.filter(player => player.status === selectedFilter)
+  const filteredPlayers = players.filter(player => {
+    const matchesRoster = selectedRoster === 'all' || player.roster === selectedRoster
+    const matchesPosition = selectedPosition === 'all' || player.position === selectedPosition
+    const matchesSearch = player.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
+                         player.position.toLowerCase().includes(searchQuery.toLowerCase())
+    
+    return matchesRoster && matchesPosition && matchesSearch
+  })
+
+  const positions = ['all', ...Array.from(new Set(players.map(p => p.position)))]
+
+  const rosterTabs = [
+    { value: 'active', label: 'Active roster (regular season)' },
+    { value: 'practice-squad', label: 'Practice squad' },
+    { value: 'injured-reserve', label: 'Injured reserve' }
+  ]
 
   const injuryPercentage = Math.round((teamData.activeInjuries / teamData.totalPlayers) * 100)
   const illnessPercentage = Math.round((teamData.activeIllness / teamData.totalPlayers) * 100)
@@ -291,23 +319,73 @@ function RosterOverview() {
           Health status vs availability
         </Typography>
 
-        {/* Filter Chips */}
+        {/* New Filter Controls */}
         <Box sx={{ mb: 3 }}>
-          <Typography variant="body2" color="text.secondary" sx={{ mb: 1 }}>
-            Filter by status:
-          </Typography>
-          <Box sx={{ display: 'flex', gap: 1, flexWrap: 'wrap' }}>
-            {['all', 'healthy', 'injured', 'ill'].map((filter) => (
-              <Chip
-                key={filter}
-                label={filter.charAt(0).toUpperCase() + filter.slice(1)}
-                onClick={() => setSelectedFilter(filter)}
-                color={selectedFilter === filter ? 'primary' : 'default'}
-                variant={selectedFilter === filter ? 'filled' : 'outlined'}
+          <Grid container spacing={2} alignItems="center">
+            {/* Date Picker */}
+            <Grid item xs={12} sm={6} md={3}>
+              <DatePicker
+                label="Date"
+                value={selectedDate}
+                onChange={(newValue) => setSelectedDate(newValue)}
+                renderInput={(params) => <TextField {...params} fullWidth size="small" />}
+              />
+            </Grid>
+
+            {/* Position Filter */}
+            <Grid item xs={12} sm={6} md={3}>
+              <FormControl fullWidth size="small">
+                <InputLabel>Position</InputLabel>
+                <Select
+                  value={selectedPosition}
+                  label="Position"
+                  onChange={(e) => setSelectedPosition(e.target.value)}
+                >
+                  {positions.map((position) => (
+                    <MenuItem key={position} value={position}>
+                      {position === 'all' ? 'All Positions' : position}
+                    </MenuItem>
+                  ))}
+                </Select>
+              </FormControl>
+            </Grid>
+
+            {/* Search Bar */}
+            <Grid item xs={12} sm={6} md={3}>
+              <TextField
+                fullWidth
                 size="small"
+                placeholder="Search players..."
+                value={searchQuery}
+                onChange={(e) => setSearchQuery(e.target.value)}
+                InputProps={{
+                  startAdornment: <Search sx={{ mr: 1, color: 'text.secondary' }} />
+                }}
+              />
+            </Grid>
+          </Grid>
+        </Box>
+
+        {/* Roster Tabs */}
+        <Box sx={{ borderBottom: 1, borderColor: 'divider', mb: 3 }}>
+          <Tabs 
+            value={selectedRoster} 
+            onChange={(e, newValue) => setSelectedRoster(newValue)}
+            sx={{
+              '& .MuiTab-root': {
+                textTransform: 'none',
+                fontWeight: 500
+              }
+            }}
+          >
+            {rosterTabs.map((tab) => (
+              <Tab 
+                key={tab.value} 
+                label={tab.label} 
+                value={tab.value}
               />
             ))}
-          </Box>
+          </Tabs>
         </Box>
 
         <Divider sx={{ mb: 3 }} />
@@ -364,7 +442,7 @@ function RosterOverview() {
         {filteredPlayers.length === 0 && (
           <Box sx={{ textAlign: 'center', py: 4 }}>
             <Typography variant="body1" color="text.secondary">
-              No players found with the selected filter.
+              No players found with the selected filters.
             </Typography>
           </Box>
         )}
