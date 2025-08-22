@@ -17,6 +17,7 @@ import {
   Notifications
 } from '@mui/icons-material'
 import MainNavigation from './MainNavigation'
+import NotificationsPanel from './NotificationsPanel'
 
 
 // Mock current user data
@@ -49,6 +50,7 @@ function MedinahLayoutWithMainNav({ children }) {
   const [isNavOpen, setIsNavOpen] = useState(true)
   const [currentSquad, setCurrentSquad] = useState(availableSquads[0])
   const [userMenuAnchor, setUserMenuAnchor] = useState(null)
+  const [notificationsPanelOpen, setNotificationsPanelOpen] = useState(false)
 
   const getPageTitle = () => {
     return pageTitles[location.pathname] || 'Dashboard'
@@ -148,6 +150,7 @@ function MedinahLayoutWithMainNav({ children }) {
 
               {/* Notifications */}
               <IconButton 
+                onClick={() => setNotificationsPanelOpen(true)}
                 sx={{ 
                   color: 'text.secondary',
                   '&:hover': { 
@@ -206,6 +209,12 @@ function MedinahLayoutWithMainNav({ children }) {
         </Box>
       </Box>
     </Box>
+
+      {/* Notifications Panel */}
+      <NotificationsPanel
+        open={notificationsPanelOpen}
+        onClose={() => setNotificationsPanelOpen(false)}
+      />
     </>
   )
 }

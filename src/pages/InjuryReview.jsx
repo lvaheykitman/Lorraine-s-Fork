@@ -232,23 +232,16 @@ function InjuryReview() {
   }
 
   return (
-    <Box sx={{ p: 3 }}>
+    <Box sx={{ p: 3, bgcolor: '#ffffff' }}>
       {/* Page Header */}
-      <Box sx={{ display: 'flex', alignItems: 'center', mb: 3 }}>
-                  <LocalHospitalOutlined sx={{ fontSize: 32, color: 'primary.main', mr: 2 }} />
+      <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', mb: 3 }}>
         <Typography variant="h4" sx={{ color: 'primary.main' }}>
           Injury review
         </Typography>
+        <Typography variant="body2" color="text.secondary">
+          Data updated {getMinutesAgo()} minutes ago
+        </Typography>
       </Box>
-
-      {/* Auto-refresh indicator */}
-      <Alert 
-        icon={<RefreshOutlined />} 
-        severity="info" 
-        sx={{ mb: 3 }}
-      >
-        Data updated {getMinutesAgo()} minutes ago
-      </Alert>
 
       {/* Filters */}
       <Grid container spacing={2} sx={{ mb: 3 }}>
@@ -304,84 +297,143 @@ function InjuryReview() {
         </Tabs>
       </Paper>
 
-      {/* Chart Section */}
-      <Paper sx={{ p: 3, mb: 3 }}>
-        <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', mb: 3 }}>
-          <Box>
-            <Typography variant="h6" gutterBottom>
-              {currentDataset.title}
+      {/* Chart and Insights Section */}
+      <Grid container spacing={3}>
+        {/* AI Insights */}
+        <Grid item xs={12} md={4}>
+          <Paper sx={{ p: 3, height: '100%' }}>
+            <Box sx={{ display: 'flex', alignItems: 'center', mb: 2 }}>
+              <AssessmentOutlined sx={{ color: 'primary.main', mr: 1 }} />
+              <Typography variant="h6" sx={{ color: 'primary.main' }}>
+                AI insights
+              </Typography>
+            </Box>
+            <Typography variant="body1">
+              {currentDataset.insight}
             </Typography>
-            <Typography variant="body2" color="text.secondary">
-              {currentDataset.description}
-            </Typography>
-          </Box>
-          <Box sx={{ display: 'flex', gap: 1 }}>
-            <Tooltip title="Export data">
-              <IconButton onClick={handleExport} size="small">
-                <FileDownloadOutlined />
-              </IconButton>
-            </Tooltip>
-            <Tooltip title="Share chart">
-              <IconButton onClick={handleShare} size="small">
-                <ShareOutlined />
-              </IconButton>
-            </Tooltip>
-          </Box>
-        </Box>
-        
-        <Box sx={{ height: 400 }}>
-          <ResponsiveContainer width="100%" height="100%">
-            <BarChart
-              data={currentDataset.data}
-              margin={{ top: 20, right: 30, left: 20, bottom: 5 }}
-              onClick={handleBarClick}
-            >
-              <CartesianGrid strokeDasharray="3 3" />
-              <XAxis 
-                dataKey="name" 
-                angle={-45}
-                textAnchor="end"
-                height={80}
-                fontSize={12}
-              />
-              <YAxis fontSize={12} />
-              <RechartsTooltip content={<CustomTooltip />} />
-              <Bar 
-                dataKey="count" 
-                fill="var(--color-primary)"
-                radius={[4, 4, 0, 0]}
-              >
-                {currentDataset.data.map((entry, index) => (
-                  <Cell 
-                    key={`cell-${index}`}
-                    fill={selectedBar && selectedBar.index === index 
-                      ? 'var(--color-secondary)' 
-                      : entry.severity 
-                        ? getSeverityColor(entry.severity)
-                        : entry.trend
-                          ? getTrendColor(entry.trend)
-                          : 'var(--color-primary)'
-                    }
-                  />
-                ))}
-              </Bar>
-            </BarChart>
-          </ResponsiveContainer>
-        </Box>
-      </Paper>
+          </Paper>
+        </Grid>
 
-      {/* AI Insights */}
-              <Paper sx={{ p: 3, mb: 3, bgcolor: 'grey.50' }}>
-          <Box sx={{ display: 'flex', alignItems: 'center', mb: 2 }}>
-            <AssessmentOutlined sx={{ color: 'primary.main', mr: 1 }} />
-            <Typography variant="h6" sx={{ color: 'primary.main' }}>
-              AI insights
-            </Typography>
-          </Box>
-        <Typography variant="body1">
-          {currentDataset.insight}
-        </Typography>
-      </Paper>
+        {/* Chart */}
+        <Grid item xs={12} md={8}>
+          <Paper sx={{ p: 3 }}>
+            <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', mb: 3 }}>
+              <Box>
+                <Typography variant="h6" gutterBottom>
+                  {currentDataset.title}
+                </Typography>
+                <Typography variant="body2" color="text.secondary">
+                  {currentDataset.description}
+                </Typography>
+              </Box>
+              <Box sx={{ display: 'flex', gap: 1 }}>
+                <Button
+                  variant="outlined"
+                  startIcon={<FileDownloadOutlined />}
+                  onClick={handleExport}
+                  size="small"
+                >
+                  Export
+                </Button>
+                <Button
+                  variant="outlined"
+                  startIcon={<ShareOutlined />}
+                  onClick={handleShare}
+                  size="small"
+                >
+                  Share
+                </Button>
+              </Box>
+            </Box>
+            
+            <Box sx={{ height: 400 }}>
+              <ResponsiveContainer width="100%" height="100%">
+                <BarChart
+                  data={currentDataset.data}
+                  margin={{ top: 20, right: 30, left: 20, bottom: 5 }}
+                  onClick={handleBarClick}
+                >
+                  <CartesianGrid strokeDasharray="3 3" />
+                  <XAxis 
+                    dataKey="name" 
+                    angle={-45}
+                    textAnchor="end"
+                    height={80}
+                    fontSize={12}
+                  />
+                  <YAxis fontSize={12} />
+                  <RechartsTooltip content={<CustomTooltip />} />
+                  <Bar 
+                    dataKey="count" 
+                    fill="var(--color-primary)"
+                    radius={[4, 4, 0, 0]}
+                  >
+                    {currentDataset.data.map((entry, index) => (
+                      <Cell 
+                        key={`cell-${index}`}
+                        fill={selectedBar && selectedBar.index === index 
+                          ? 'var(--color-secondary)' 
+                          : entry.severity 
+                            ? getSeverityColor(entry.severity)
+                            : entry.trend
+                              ? getTrendColor(entry.trend)
+                              : 'var(--color-primary)'
+                        }
+                      />
+                    ))}
+                  </Bar>
+                </BarChart>
+              </ResponsiveContainer>
+            </Box>
+
+            {/* Chart Legend */}
+            <Box sx={{ mt: 3, display: 'flex', justifyContent: 'center', gap: 3 }}>
+              <FormControl component="fieldset">
+                <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
+                  <Box sx={{ width: 16, height: 16, bgcolor: '#28a745', borderRadius: 1 }} />
+                  <Typography variant="body2" component="label">
+                    <input
+                      type="checkbox"
+                      checked={true}
+                      onChange={() => {}}
+                      style={{ marginRight: 8 }}
+                    />
+                    Mild
+                  </Typography>
+                </Box>
+              </FormControl>
+              <FormControl component="fieldset">
+                <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
+                  <Box sx={{ width: 16, height: 16, bgcolor: '#ffc107', borderRadius: 1 }} />
+                  <Typography variant="body2" component="label">
+                    <input
+                      type="checkbox"
+                      checked={true}
+                      onChange={() => {}}
+                      style={{ marginRight: 8 }}
+                    />
+                    Moderate
+                  </Typography>
+                </Box>
+              </FormControl>
+              <FormControl component="fieldset">
+                <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
+                  <Box sx={{ width: 16, height: 16, bgcolor: '#dc3545', borderRadius: 1 }} />
+                  <Typography variant="body2" component="label">
+                    <input
+                      type="checkbox"
+                      checked={true}
+                      onChange={() => {}}
+                      style={{ marginRight: 8 }}
+                    />
+                    Severe
+                  </Typography>
+                </Box>
+              </FormControl>
+            </Box>
+          </Paper>
+        </Grid>
+      </Grid>
 
       {/* Detail Panel Dialog */}
       <Dialog 

@@ -56,8 +56,9 @@ const AvailabilityTable = ({ athletes }) => {
   // Get unique positions from athletes
   const positions = ['all', ...new Set(athletes.map(a => a.position))]
 
-  // Filter athletes based on search and filters
-  const filteredAthletes = athletes.filter(athlete => {
+  // Add sample athletes and then filter
+  const enrichedAthletes = addSampleAthletes(athletes)
+  const filteredAthletes = enrichedAthletes.filter(athlete => {
     const matchesSearch = 
       athlete.firstname.toLowerCase().includes(searchQuery.toLowerCase()) ||
       athlete.lastname.toLowerCase().includes(searchQuery.toLowerCase()) ||
@@ -100,6 +101,42 @@ const AvailabilityTable = ({ athletes }) => {
     }
   }
 
+  // Add more sample athletes to each position group
+  const addSampleAthletes = (athletes) => {
+    const sampleStatuses = ['available', 'unavailable', 'injured']
+    const sampleNames = [
+      'John Smith', 'Mike Johnson', 'David Brown', 'James Wilson',
+      'Robert Taylor', 'Michael Davis', 'William Anderson', 'Joseph Martin',
+      'Thomas Moore', 'Christopher Lee', 'Daniel White', 'Matthew Hall'
+    ]
+    
+    const result = [...athletes]
+    let nameIndex = 0
+
+    Object.keys(positionGroups).forEach(group => {
+      const athletesInGroup = result.filter(a => 
+        positionGroups[group].includes(a.position)
+      )
+
+      // Add more athletes if needed
+      while (athletesInGroup.length < 10) {
+        const [firstName, lastName] = sampleNames[nameIndex].split(' ')
+        result.push({
+          id: `sample-${nameIndex}`,
+          firstname: firstName,
+          lastname: lastName,
+          position: positionGroups[group][0],
+          squad_name: 'First Team',
+          availability_status: sampleStatuses[Math.floor(Math.random() * sampleStatuses.length)],
+          avatar: null
+        })
+        nameIndex = (nameIndex + 1) % sampleNames.length
+      }
+    })
+
+    return result
+  }
+
   const getAvailabilityChip = (athlete) => {
     return (
       <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
@@ -121,7 +158,7 @@ const AvailabilityTable = ({ athletes }) => {
   }
 
   if (showPrintConfig) {
-    return <PrintConfiguration onBack={() => setShowPrintConfig(false)} />
+    return <PrintConfiguration onBack={() => setShowPrintConfig(false)} athletes={filteredAthletes} />
   }
 
   return (
@@ -206,15 +243,15 @@ const AvailabilityTable = ({ athletes }) => {
           </Grid>
 
           {/* Print Button */}
-          <Grid item xs={12} sm={1}>
-            <IconButton 
+          <Grid item xs={12} sm={2}>
+            <Button
+              variant="outlined"
+              startIcon={<PrintIcon />}
               onClick={() => setShowPrintConfig(true)}
               sx={{ width: '100%', height: '100%' }}
             >
-              <Tooltip title="Print">
-                <PrintIcon />
-              </Tooltip>
-            </IconButton>
+              Print
+            </Button>
           </Grid>
         </Grid>
       </Box>

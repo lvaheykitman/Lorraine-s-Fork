@@ -55,87 +55,81 @@ function RosterOverview() {
         Roster overview
       </Typography>
 
-      {/* Row 3: Team Banner with Cards */}
-      <Paper 
-        sx={{ 
-          p: 3, 
-          mb: 3, 
-          background: '#97233F',
-          borderRadius: 2,
-          position: 'relative'
-        }}
-      >
-        {/* Team Info */}
-        <Box sx={{ display: 'flex', alignItems: 'center', mb: 3 }}>
-          <Box>
-            <Typography variant="h4" sx={{ fontWeight: 700, color: '#ffffff' }}>
-              Arizona Cardinals
-            </Typography>
-            <Typography variant="h6" sx={{ color: '#ffffff' }}>
-              2025 season
-            </Typography>
-          </Box>
-        </Box>
+      {/* Row 3: Team Info */}
+      <Box sx={{ mb: 3 }}>
+        <Typography variant="h4" sx={{ fontWeight: 700, color: '#1F2D44' }}>
+          Arizona Cardinals
+        </Typography>
+        <Typography variant="h6" sx={{ color: '#1F2D44' }}>
+          2025 season
+        </Typography>
+      </Box>
 
-        {/* Cards in Banner */}
-        <Grid container spacing={3}>
-          {/* Active Injuries Card */}
-          <Grid item xs={12} md={4}>
+      {/* Row 4: Metric Cards */}
+      <Grid container spacing={3} sx={{ mb: 3 }}>
+        {/* Active Injuries Card */}
+        <Grid item xs={12} md={4}>
+          <Paper sx={{ p: 3, height: '100%', boxShadow: 2 }}>
             <Box sx={{ textAlign: 'left' }}>
               <Typography variant="h3" sx={{ 
                 fontWeight: 700, 
-                color: '#ffffff',
+                color: '#dc3545',
                 mb: 1
               }}>
                 {teamData.activeInjuries}
               </Typography>
-              <Typography variant="h6" sx={{ color: '#ffffff', mb: 1 }}>
+              <Typography variant="h6" sx={{ color: '#666666', mb: 1 }}>
                 Active injuries
               </Typography>
-              <Typography variant="body2" sx={{ color: '#ffffff' }}>
+              <Typography variant="body2" sx={{ color: '#666666' }}>
                 {injuryPercentage}% of squad
               </Typography>
             </Box>
-          </Grid>
+          </Paper>
+        </Grid>
 
-          {/* Active Illness Card */}
-          <Grid item xs={12} md={4}>
+        {/* Active Illness Card */}
+        <Grid item xs={12} md={4}>
+          <Paper sx={{ p: 3, height: '100%', boxShadow: 2 }}>
             <Box sx={{ textAlign: 'left' }}>
               <Typography variant="h3" sx={{ 
                 fontWeight: 700, 
-                color: '#ffffff',
+                color: '#dc3545',
                 mb: 1
               }}>
                 {teamData.activeIllness}
               </Typography>
-              <Typography variant="h6" sx={{ color: '#ffffff', mb: 1 }}>
+              <Typography variant="h6" sx={{ color: '#666666', mb: 1 }}>
                 Active illness
               </Typography>
-              <Typography variant="body2" sx={{ color: '#ffffff' }}>
+              <Typography variant="body2" sx={{ color: '#666666' }}>
                 {illnessPercentage}% of squad
               </Typography>
             </Box>
-          </Grid>
+          </Paper>
+        </Grid>
 
-          {/* Fit-to-Play Index Card */}
-          <Grid item xs={12} md={4}>
+        {/* Fit-to-Play Index Card */}
+        <Grid item xs={12} md={4}>
+          <Paper sx={{ p: 3, height: '100%', boxShadow: 2 }}>
             <Box sx={{ textAlign: 'left' }}>
               <Typography variant="h3" sx={{ 
                 fontWeight: 700, 
-                color: '#ffffff',
+                color: '#dc3545',
                 mb: 1
               }}>
                 {teamData.fitToPlayIndex}%
               </Typography>
-              <Typography variant="h6" sx={{ color: '#ffffff', mb: 1 }}>
+              <Typography variant="h6" sx={{ color: '#666666', mb: 1 }}>
                 Fit-to-play index
               </Typography>
-              <Typography variant="body2" sx={{ color: '#ffffff' }}>
+              <Typography variant="body2" sx={{ color: '#666666' }}>
                 Overall team readiness
               </Typography>
             </Box>
-          </Grid>
+          </Paper>
         </Grid>
+      </Grid>
       </Paper>
 
       {/* Row 4: Availability Table */}

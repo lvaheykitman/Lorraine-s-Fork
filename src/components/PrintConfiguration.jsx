@@ -20,7 +20,7 @@ import {
   ArrowBack as ArrowBackIcon
 } from '@mui/icons-material'
 
-const PrintConfiguration = ({ onBack }) => {
+const PrintConfiguration = ({ onBack, athletes }) => {
   const [pageSize, setPageSize] = useState('a4')
   const [orientation, setOrientation] = useState('portrait')
   const [history, setHistory] = useState([{ pageSize: 'a4', orientation: 'portrait' }])
@@ -149,17 +149,92 @@ const PrintConfiguration = ({ onBack }) => {
             elevation={0} 
             sx={{ 
               border: '1px solid #e0e0e0',
-              height: 400,
+              p: 2,
+              height: 600,
               width: '100%',
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'center',
-              bgcolor: '#f5f5f5'
+              bgcolor: '#ffffff',
+              overflow: 'auto',
+              transform: orientation === 'landscape' ? 'rotate(90deg)' : 'none',
+              transformOrigin: 'center center',
+              transition: 'transform 0.3s ease'
             }}
           >
-            <Typography color="text.secondary">
-              PDF Preview will be displayed here
-            </Typography>
+            <Box sx={{ 
+              maxWidth: pageSize === 'a4' ? '210mm' : pageSize === 'letter' ? '216mm' : '216mm',
+              margin: '0 auto',
+              p: 2
+            }}>
+              <Typography variant="h4" gutterBottom>
+                Arizona Cardinals - Roster Overview
+              </Typography>
+              
+              <Box sx={{ mb: 4 }}>
+                <Typography variant="h6" gutterBottom>
+                  Team Status
+                </Typography>
+                <Grid container spacing={2}>
+                  <Grid item xs={4}>
+                    <Paper elevation={1} sx={{ p: 2 }}>
+                      <Typography variant="h4" color="error">7</Typography>
+                      <Typography color="text.secondary">Active Injuries</Typography>
+                    </Paper>
+                  </Grid>
+                  <Grid item xs={4}>
+                    <Paper elevation={1} sx={{ p: 2 }}>
+                      <Typography variant="h4" color="error">3</Typography>
+                      <Typography color="text.secondary">Active Illness</Typography>
+                    </Paper>
+                  </Grid>
+                  <Grid item xs={4}>
+                    <Paper elevation={1} sx={{ p: 2 }}>
+                      <Typography variant="h4" color="error">81%</Typography>
+                      <Typography color="text.secondary">Fit-to-play Index</Typography>
+                    </Paper>
+                  </Grid>
+                </Grid>
+              </Box>
+
+              <Typography variant="h6" gutterBottom>
+                Player Availability by Position
+              </Typography>
+              <TableContainer component={Paper} elevation={1}>
+                <Table size="small">
+                  <TableHead>
+                    <TableRow>
+                      {Object.keys(positionGroups).map((group) => (
+                        <TableCell key={group} align="center">
+                          <Typography variant="subtitle2">{group}</Typography>
+                        </TableCell>
+                      ))}
+                    </TableRow>
+                  </TableHead>
+                  <TableBody>
+                    <TableRow>
+                      {Object.entries(positionGroups).map(([group, positions]) => (
+                        <TableCell key={group} align="center">
+                          <Box sx={{ display: 'flex', flexDirection: 'column', gap: 1 }}>
+                            {athletes
+                              .filter(a => positions.includes(a.position))
+                              .map(athlete => (
+                                <Chip
+                                  key={athlete.id}
+                                  label={`${athlete.firstname} ${athlete.lastname}`}
+                                  size="small"
+                                  color={
+                                    athlete.availability_status === 'available' ? 'success' :
+                                    athlete.availability_status === 'injured' ? 'warning' : 'error'
+                                  }
+                                />
+                              ))
+                            }
+                          </Box>
+                        </TableCell>
+                      ))}
+                    </TableRow>
+                  </TableBody>
+                </Table>
+              </TableContainer>
+            </Box>
           </Paper>
         </Box>
       </Stack>
