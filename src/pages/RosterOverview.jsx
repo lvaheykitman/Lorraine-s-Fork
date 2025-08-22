@@ -60,7 +60,7 @@ function RosterOverview() {
         sx={{ 
           p: 3, 
           mb: 3, 
-          background: 'linear-gradient(135deg, #97233F 0%, rgba(255,255,255,0.4) 70%, #ffffff 100%)', // Less concentrated gradient
+          background: '#97233F',
           borderRadius: 2,
           position: 'relative'
         }}
@@ -68,94 +68,74 @@ function RosterOverview() {
         {/* Team Info */}
         <Box sx={{ display: 'flex', alignItems: 'center', mb: 3 }}>
           <Box>
-            <Typography variant="h4" sx={{ fontWeight: 700, color: '#1F2D44' }}>
+            <Typography variant="h4" sx={{ fontWeight: 700, color: '#ffffff' }}>
               Arizona Cardinals
             </Typography>
-            <Typography variant="h6" sx={{ color: '#1F2D44' }}>
+            <Typography variant="h6" sx={{ color: '#ffffff' }}>
               2025 season
             </Typography>
           </Box>
         </Box>
 
-        {/* Cards in Banner with white background */}
-        <Box sx={{ bgcolor: '#ffffff', borderRadius: 2, p: 2 }}>
-          <Grid container spacing={3}>
-            {/* Active Injuries Card */}
-            <Grid item xs={12} md={4}>
-              <Card sx={{ 
-                height: '100%',
-                boxShadow: 'none',
-                border: '1px solid #e0e0e0'
+        {/* Cards in Banner */}
+        <Grid container spacing={3}>
+          {/* Active Injuries Card */}
+          <Grid item xs={12} md={4}>
+            <Box sx={{ textAlign: 'left' }}>
+              <Typography variant="h3" sx={{ 
+                fontWeight: 700, 
+                color: '#ffffff',
+                mb: 1
               }}>
-                <CardContent sx={{ textAlign: 'left', p: 2 }}>
-                  <Typography variant="h3" sx={{ 
-                    fontWeight: 700, 
-                    color: '#dc3545',
-                    mb: 1
-                  }}>
-                    {teamData.activeInjuries}
-                  </Typography>
-                  <Typography variant="h6" sx={{ color: '#1F2D44', mb: 1 }}>
-                    Active injuries
-                  </Typography>
-                  <Typography variant="body2" sx={{ color: '#1F2D44' }}>
-                    {injuryPercentage}% of squad
-                  </Typography>
-                </CardContent>
-              </Card>
-            </Grid>
-
-            {/* Active Illness Card */}
-            <Grid item xs={12} md={4}>
-              <Card sx={{ 
-                height: '100%',
-                boxShadow: 'none',
-                border: '1px solid #e0e0e0'
-              }}>
-                <CardContent sx={{ textAlign: 'left', p: 2 }}>
-                  <Typography variant="h3" sx={{ 
-                    fontWeight: 700, 
-                    color: '#dc3545',
-                    mb: 1
-                  }}>
-                    {teamData.activeIllness}
-                  </Typography>
-                  <Typography variant="h6" sx={{ color: '#1F2D44', mb: 1 }}>
-                    Active illness
-                  </Typography>
-                  <Typography variant="body2" sx={{ color: '#1F2D44' }}>
-                    {illnessPercentage}% of squad
-                  </Typography>
-                </CardContent>
-              </Card>
-            </Grid>
-
-            {/* Fit-to-Play Index Card */}
-            <Grid item xs={12} md={4}>
-              <Card sx={{ 
-                height: '100%',
-                boxShadow: 'none',
-                border: '1px solid #e0e0e0'
-              }}>
-                <CardContent sx={{ textAlign: 'left', p: 2 }}>
-                  <Typography variant="h3" sx={{ 
-                    fontWeight: 700, 
-                    color: '#dc3545',
-                    mb: 1
-                  }}>
-                    {teamData.fitToPlayIndex}%
-                  </Typography>
-                  <Typography variant="h6" sx={{ color: '#1F2D44', mb: 1 }}>
-                    Fit-to-play index
-                  </Typography>
-                  <Typography variant="body2" sx={{ color: '#1F2D44' }}>
-                    Overall team readiness
-                  </Typography>
-                </CardContent>
-              </Card>
-            </Grid>
+                {teamData.activeInjuries}
+              </Typography>
+              <Typography variant="h6" sx={{ color: '#ffffff', mb: 1 }}>
+                Active injuries
+              </Typography>
+              <Typography variant="body2" sx={{ color: '#ffffff' }}>
+                {injuryPercentage}% of squad
+              </Typography>
+            </Box>
           </Grid>
-        </Box>
+
+          {/* Active Illness Card */}
+          <Grid item xs={12} md={4}>
+            <Box sx={{ textAlign: 'left' }}>
+              <Typography variant="h3" sx={{ 
+                fontWeight: 700, 
+                color: '#ffffff',
+                mb: 1
+              }}>
+                {teamData.activeIllness}
+              </Typography>
+              <Typography variant="h6" sx={{ color: '#ffffff', mb: 1 }}>
+                Active illness
+              </Typography>
+              <Typography variant="body2" sx={{ color: '#ffffff' }}>
+                {illnessPercentage}% of squad
+              </Typography>
+            </Box>
+          </Grid>
+
+          {/* Fit-to-Play Index Card */}
+          <Grid item xs={12} md={4}>
+            <Box sx={{ textAlign: 'left' }}>
+              <Typography variant="h3" sx={{ 
+                fontWeight: 700, 
+                color: '#ffffff',
+                mb: 1
+              }}>
+                {teamData.fitToPlayIndex}%
+              </Typography>
+              <Typography variant="h6" sx={{ color: '#ffffff', mb: 1 }}>
+                Fit-to-play index
+              </Typography>
+              <Typography variant="body2" sx={{ color: '#ffffff' }}>
+                Overall team readiness
+              </Typography>
+            </Box>
+          </Grid>
+        </Grid>
       </Paper>
 
       {/* Row 4: Availability Table */}

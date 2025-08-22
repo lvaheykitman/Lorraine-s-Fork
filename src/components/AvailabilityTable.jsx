@@ -19,15 +19,19 @@ import {
   TableContainer,
   TableHead,
   TableRow,
+  TablePagination,
   Chip,
   IconButton,
-  Tooltip
+  Tooltip,
+  Avatar
 } from '@mui/material'
 import {
   GridView as GridViewIcon,
   ViewList as ViewListIcon,
-  Search as SearchIcon
+  Search as SearchIcon,
+  Print as PrintIcon
 } from '@mui/icons-material'
+import PrintConfiguration from './PrintConfiguration'
 
 // Group positions
 const positionGroups = {
@@ -41,7 +45,10 @@ const AvailabilityTable = ({ athletes }) => {
   const [searchQuery, setSearchQuery] = useState('')
   const [selectedSquad, setSelectedSquad] = useState('all')
   const [selectedPosition, setSelectedPosition] = useState('all')
-  const [viewMode, setViewMode] = useState('grid')
+  const [viewMode, setViewMode] = useState('ladder')
+  const [page, setPage] = useState(0)
+  const [rowsPerPage, setRowsPerPage] = useState(10)
+  const [showPrintConfig, setShowPrintConfig] = useState(false)
 
   // Get unique squads from athletes
   const squads = ['all', ...new Set(athletes.map(a => a.squad_name))]
@@ -62,21 +69,59 @@ const AvailabilityTable = ({ athletes }) => {
     return matchesSearch && matchesSquad && matchesPosition
   })
 
+  // Handle pagination
+  const handleChangePage = (event, newPage) => {
+    setPage(newPage)
+  }
+
+  const handleChangeRowsPerPage = (event) => {
+    setRowsPerPage(parseInt(event.target.value, 10))
+    setPage(0)
+  }
+
   // Group athletes by position group for the ladder view
   const groupedAthletes = {}
   Object.keys(positionGroups).forEach(group => {
-    groupedAthletes[group] = filteredAthletes.filter(athlete => 
+    const athletesInGroup = filteredAthletes.filter(athlete => 
       positionGroups[group].includes(athlete.position)
+    )
+    groupedAthletes[group] = athletesInGroup.slice(
+      page * rowsPerPage,
+      page * rowsPerPage + rowsPerPage
     )
   })
 
   const getAvailabilityColor = (status) => {
     switch (status.toLowerCase()) {
       case 'available': return 'success'
-      case 'injured': return 'error'
-      case 'doubtful': return 'warning'
+      case 'injured': return 'warning'
+      case 'unavailable': return 'error'
       default: return 'default'
     }
+  }
+
+  const getAvailabilityChip = (athlete) => {
+    return (
+      <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
+        <Avatar
+          alt={`${athlete.firstname} ${athlete.lastname}`}
+          src={athlete.avatar}
+          sx={{ width: 24, height: 24 }}
+        >
+          {athlete.firstname[0]}
+        </Avatar>
+        <Chip
+          label={`${athlete.firstname} ${athlete.lastname}`}
+          color={getAvailabilityColor(athlete.availability_status)}
+          size="small"
+          sx={{ minWidth: 120 }}
+        />
+      </Box>
+    )
+  }
+
+  if (showPrintConfig) {
+    return <PrintConfiguration onBack={() => setShowPrintConfig(false)} />
   }
 
   return (
@@ -159,6 +204,18 @@ const AvailabilityTable = ({ athletes }) => {
               </ToggleButton>
             </ToggleButtonGroup>
           </Grid>
+
+          {/* Print Button */}
+          <Grid item xs={12} sm={1}>
+            <IconButton 
+              onClick={() => setShowPrintConfig(true)}
+              sx={{ width: '100%', height: '100%' }}
+            >
+              <Tooltip title="Print">
+                <PrintIcon />
+              </Tooltip>
+            </IconButton>
+          </Grid>
         </Grid>
       </Box>
 
@@ -199,61 +256,60 @@ const AvailabilityTable = ({ athletes }) => {
 
       {/* Ladder View */}
       {viewMode === 'ladder' && (
-        <TableContainer>
-          <Table>
-            <TableHead>
-              <TableRow>
-                <TableCell>Position Group</TableCell>
-                <TableCell>Name</TableCell>
-                <TableCell>Position</TableCell>
-                <TableCell>Squad</TableCell>
-                <TableCell>Availability</TableCell>
-                <TableCell>Status</TableCell>
-              </TableRow>
-            </TableHead>
-            <TableBody>
-              {Object.entries(groupedAthletes).map(([group, athletes]) => (
-                <React.Fragment key={group}>
-                  <TableRow>
-                    <TableCell
-                      colSpan={6}
-                      sx={{ 
-                        bgcolor: 'grey.100',
-                        fontWeight: 'bold'
-                      }}
-                    >
+        <>
+          <TableContainer>
+            <Table>
+              <TableHead>
+                <TableRow>
+                  {Object.keys(positionGroups).map((group) => (
+                    <TableCell key={group} sx={{ fontWeight: 'bold', textAlign: 'center' }}>
                       {group}
                     </TableCell>
-                  </TableRow>
-                  {athletes.map((athlete) => (
-                    <TableRow key={athlete.id}>
-                      <TableCell></TableCell>
-                      <TableCell>{athlete.firstname} {athlete.lastname}</TableCell>
-                      <TableCell>{athlete.position}</TableCell>
-                      <TableCell>{athlete.squad_name}</TableCell>
-                      <TableCell>
-                        <Chip
-                          label={athlete.availability_status}
-                          color={getAvailabilityColor(athlete.availability_status)}
-                          size="small"
-                        />
-                      </TableCell>
-                      <TableCell>
-                        {athlete.injury_status !== 'Healthy' ? (
-                          <Typography variant="body2" color="error">
-                            {athlete.injury_status}
-                          </Typography>
-                        ) : (
-                          'Healthy'
-                        )}
-                      </TableCell>
-                    </TableRow>
                   ))}
-                </React.Fragment>
-              ))}
-            </TableBody>
-          </Table>
-        </TableContainer>
+                </TableRow>
+              </TableHead>
+              <TableBody>
+                <TableRow>
+                  {Object.entries(groupedAthletes).map(([group, athletes]) => (
+                    <TableCell key={group} sx={{ verticalAlign: 'top' }}>
+                      <Box sx={{ display: 'flex', flexDirection: 'column', gap: 1 }}>
+                        {athletes.map((athlete) => getAvailabilityChip(athlete))}
+                      </Box>
+                    </TableCell>
+                  ))}
+                </TableRow>
+              </TableBody>
+            </Table>
+          </TableContainer>
+
+          {/* Availability Legend */}
+          <Box sx={{ mt: 3, display: 'flex', gap: 2, justifyContent: 'center' }}>
+            <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
+              <Chip size="small" color="success" label="Available" />
+              <Typography variant="body2">Available</Typography>
+            </Box>
+            <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
+              <Chip size="small" color="error" label="Unavailable" />
+              <Typography variant="body2">Unavailable</Typography>
+            </Box>
+            <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
+              <Chip size="small" color="warning" label="Injured" />
+              <Typography variant="body2">Injured</Typography>
+            </Box>
+          </Box>
+
+          {/* Pagination */}
+          <TablePagination
+            component="div"
+            count={filteredAthletes.length}
+            page={page}
+            onPageChange={handleChangePage}
+            rowsPerPage={rowsPerPage}
+            onRowsPerPageChange={handleChangeRowsPerPage}
+            rowsPerPageOptions={[5, 10, 25, 50]}
+            sx={{ mt: 2 }}
+          />
+        </>
       )}
     </Paper>
   )
