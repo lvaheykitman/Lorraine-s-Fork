@@ -260,3 +260,4 @@ const AvailabilityTable = ({ athletes }) => {
 }
 
 export default AvailabilityTable
+

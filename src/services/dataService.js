@@ -15,3 +15,4 @@ export const getPositions = () => {
 export const getPositionGroups = () => {
   return [...new Set(athletesData.map(athlete => athlete.position_group))]
 }
+
