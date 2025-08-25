@@ -10,7 +10,8 @@ import {
   ListItemIcon,
   Button,
   Divider,
-  Chip
+  Chip,
+  ListItemSecondaryAction
 } from '@mui/material'
 import {
   Close as CloseIcon,
@@ -21,23 +22,15 @@ import {
   MedicalServices as MedicalIcon,
   Message as MessageIcon,
   Campaign as AnnouncementIcon,
-  Check as CheckIcon
+  Check as CheckIcon,
+  ArrowForward as ArrowForwardIcon,
+  Notifications as NotificationsIcon
 } from '@mui/icons-material'
 import { useNavigate } from 'react-router-dom'
 
 const notifications = [
   {
     id: 1,
-    title: 'Message from Richard Coleman',
-    description: 'Thanks for sending that PDF over, I\'ve had a...',
-    time: '1 minute ago',
-    isNew: true,
-    type: 'message',
-    channel: 'Announcements',
-    actions: ['view', 'dismiss']
-  },
-  {
-    id: 2,
     title: 'Injury reported update',
     description: 'New injury report submitted',
     time: '2 minutes ago',
@@ -45,7 +38,7 @@ const notifications = [
     type: 'injury',
   },
   {
-    id: 3,
+    id: 2,
     title: 'Andrew Hopkins status changed',
     description: 'Status changed to Doubtful',
     time: '30 minutes ago',
@@ -53,7 +46,7 @@ const notifications = [
     type: 'status',
   },
   {
-    id: 4,
+    id: 3,
     title: 'Training session complete',
     description: 'Morning practice concluded - 95% attendance',
     time: '1 hour ago',
@@ -61,7 +54,7 @@ const notifications = [
     type: 'training',
   },
   {
-    id: 5,
+    id: 4,
     title: 'Medical clearance granted',
     description: 'Player cleared to return to training',
     time: '2 hours ago',
@@ -69,13 +62,13 @@ const notifications = [
     type: 'medical',
   },
   {
-    id: 6,
+    id: 5,
     title: 'Schedule update',
     description: 'New training schedule published',
     time: '3 hours ago',
     isNew: false,
     type: 'schedule',
-  },
+  }
 ]
 
 const getNotificationIcon = (type) => {
@@ -122,101 +115,104 @@ const NotificationsPanel = ({ open, onClose }) => {
       onClose={onClose}
       PaperProps={{
         sx: {
-          width: 360,
-          maxWidth: '100%',
+          width: 400,
           bgcolor: '#ffffff'
         }
       }}
     >
-      <Box sx={{ p: 2, display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
-        <Typography variant="h6">Notifications</Typography>
-        <IconButton onClick={onClose} size="small">
-          <CloseIcon />
-        </IconButton>
-      </Box>
+      <Box sx={{ display: 'flex', flexDirection: 'column', height: '100%' }}>
+        {/* Header */}
+        <Box sx={{ 
+          display: 'flex', 
+          justifyContent: 'space-between', 
+          alignItems: 'center', 
+          p: 2,
+          borderBottom: '1px solid #e0e0e0'
+        }}>
+          <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
+            <NotificationsIcon color="primary" />
+            <Typography variant="h6">Notifications</Typography>
+          </Box>
+          <IconButton onClick={onClose}>
+            <CloseIcon />
+          </IconButton>
+        </Box>
 
-      <Divider />
+        {/* Notifications List */}
+        <List sx={{ flex: 1, overflow: 'auto', py: 0 }}>
+          {notifications.map((notification, index) => (
+            <React.Fragment key={notification.id}>
+              <ListItem 
+                alignItems="flex-start"
+                sx={{ 
+                  py: 2,
+                  bgcolor: notification.isNew ? 'rgba(25, 118, 210, 0.04)' : 'transparent',
+                  '&:hover': {
+                    bgcolor: 'rgba(0, 0, 0, 0.04)'
+                  }
+                }}
+              >
+                <ListItemIcon>
+                  {getNotificationIcon(notification.type)}
+                </ListItemIcon>
+                <ListItemText
+                  primary={
+                    <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
+                      <Typography variant="subtitle1" component="span">
+                        {notification.title}
+                      </Typography>
+                      {notification.isNew && (
+                        <Chip
+                          label="New"
+                          color="primary"
+                          size="small"
+                          sx={{ height: 20 }}
+                        />
+                      )}
+                    </Box>
+                  }
+                  secondary={
+                    <React.Fragment>
+                      <Typography
+                        component="span"
+                        variant="body2"
+                        color="text.primary"
+                        sx={{ display: 'block', mb: 0.5 }}
+                      >
+                        {notification.description}
+                      </Typography>
+                      <Typography
+                        component="span"
+                        variant="caption"
+                        color="text.secondary"
+                      >
+                        {notification.time}
+                      </Typography>
+                    </React.Fragment>
+                  }
+                />
+              </ListItem>
+              {index < notifications.length - 1 && <Divider />}
+            </React.Fragment>
+          ))}
+        </List>
 
-      <List sx={{ pt: 0 }}>
-        {notifications.map((notification) => (
-          <ListItem
-            key={notification.id}
-            sx={{
-              py: 2,
-              borderBottom: '1px solid rgba(0, 0, 0, 0.08)',
-              '&:hover': {
-                bgcolor: 'rgba(0, 0, 0, 0.02)'
-              }
-            }}
+        {/* Footer */}
+        <Box sx={{ 
+          p: 2, 
+          borderTop: '1px solid #e0e0e0',
+          bgcolor: '#fafafa'
+        }}>
+          <Button
+            fullWidth
+            variant="text"
+            color="primary"
+            onClick={handleViewAll}
+            endIcon={<ArrowForwardIcon />}
           >
-            <ListItemIcon sx={{ minWidth: 40 }}>
-              {getNotificationIcon(notification.type)}
-            </ListItemIcon>
-            <ListItemText
-              primary={
-                <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
-                  <Typography variant="subtitle2" component="span">
-                    {notification.title}
-                  </Typography>
-                  {notification.isNew && (
-                    <Chip
-                      label="New"
-                      color="error"
-                      size="small"
-                      sx={{ height: 20 }}
-                    />
-                  )}
-                </Box>
-              }
-              secondary={
-                <>
-                  <Typography variant="body2" color="text.secondary" sx={{ mb: 0.5 }}>
-                    {notification.description}
-                  </Typography>
-                  <Box sx={{ display: 'flex', alignItems: 'center', gap: 1, mb: 0.5 }}>
-                    {notification.channel && (
-                      <>
-                        <AnnouncementIcon fontSize="small" color="action" />
-                        <Typography variant="caption" color="text.secondary">
-                          {notification.channel}
-                        </Typography>
-                      </>
-                    )}
-                  </Box>
-                  <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
-                    <Typography variant="caption" color="text.secondary">
-                      {notification.time}
-                    </Typography>
-                    {notification.actions && (
-                      <Box sx={{ display: 'flex', gap: 1 }}>
-                        {notification.actions.map((action) => (
-                          <Button
-                            key={action}
-                            size="small"
-                            onClick={() => handleAction(notification, action)}
-                            startIcon={action === 'dismiss' ? <CheckIcon /> : null}
-                          >
-                            {action}
-                          </Button>
-                        ))}
-                      </Box>
-                    )}
-                  </Box>
-                </>
-              }
-            />
-          </ListItem>
-        ))}
-      </List>
-
-      <Box sx={{ p: 2 }}>
-        <Button
-          fullWidth
-          variant="outlined"
-          onClick={handleViewAll}
-        >
-          Go to full notifications
-        </Button>
+            Go to full notifications
+          </Button>
+        </Box>
       </Box>
     </Drawer>
   )

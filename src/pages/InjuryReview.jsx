@@ -235,12 +235,15 @@ function InjuryReview() {
     <Box sx={{ p: 3, bgcolor: '#ffffff' }}>
       {/* Page Header */}
       <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', mb: 3 }}>
-        <Typography variant="h4" sx={{ color: 'primary.main' }}>
-          Injury review
+        <Typography variant="h4">
+          Injury Review
         </Typography>
-        <Typography variant="body2" color="text.secondary">
-          Data updated {getMinutesAgo()} minutes ago
-        </Typography>
+        <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
+          <RefreshOutlined sx={{ color: 'text.secondary', fontSize: 20 }} />
+          <Typography variant="body2" color="text.secondary">
+            Updated {getMinutesAgo()} minutes ago
+          </Typography>
+        </Box>
       </Box>
 
       {/* Filters */}
@@ -280,7 +283,7 @@ function InjuryReview() {
       </Grid>
 
       {/* Tabs */}
-      <Paper sx={{ mb: 3 }}>
+      <Paper elevation={0} sx={{ mb: 3, borderBottom: '1px solid #e0e0e0' }}>
         <Tabs 
           value={activeTab} 
           onChange={handleTabChange}

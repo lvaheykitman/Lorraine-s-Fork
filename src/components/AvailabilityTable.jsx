@@ -95,15 +95,19 @@ const AvailabilityTable = ({ athletes }) => {
   const getAvailabilityColor = (status) => {
     switch (status.toLowerCase()) {
       case 'available': return 'success'
-      case 'injured': return 'warning'
-      case 'unavailable': return 'error'
+      case 'questionable': return 'warning'
+      case 'doubtful': return 'warning'
+      case 'injured': return 'error'
+      case 'out': return 'error'
+      case 'suspended': return 'error'
+      case 'illness': return 'error'
       default: return 'default'
     }
   }
 
   // Add more sample athletes to each position group
   const addSampleAthletes = (athletes) => {
-    const sampleStatuses = ['available', 'unavailable', 'injured']
+    const sampleStatuses = ['available', 'questionable', 'doubtful', 'injured', 'out', 'suspended', 'illness']
     const sampleNames = [
       'John Smith', 'Mike Johnson', 'David Brown', 'James Wilson',
       'Robert Taylor', 'Michael Davis', 'William Anderson', 'Joseph Martin',
@@ -140,13 +144,6 @@ const AvailabilityTable = ({ athletes }) => {
   const getAvailabilityChip = (athlete) => {
     return (
       <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
-        <Avatar
-          alt={`${athlete.firstname} ${athlete.lastname}`}
-          src={athlete.avatar}
-          sx={{ width: 24, height: 24 }}
-        >
-          {athlete.firstname[0]}
-        </Avatar>
         <Chip
           label={`${athlete.firstname} ${athlete.lastname}`}
           color={getAvailabilityColor(athlete.availability_status)}

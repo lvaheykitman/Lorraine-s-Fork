@@ -10,7 +10,14 @@ import {
   Button,
   IconButton,
   Stack,
-  Divider
+  Divider,
+  Table,
+  TableBody,
+  TableCell,
+  TableContainer,
+  TableHead,
+  TableRow,
+  Chip
 } from '@mui/material'
 import {
   Undo as UndoIcon,
@@ -19,6 +26,19 @@ import {
   Download as DownloadIcon,
   ArrowBack as ArrowBackIcon
 } from '@mui/icons-material'
+
+const getAvailabilityColor = (status) => {
+  switch (status.toLowerCase()) {
+    case 'available': return 'success'
+    case 'questionable': return 'warning'
+    case 'doubtful': return 'warning'
+    case 'injured': return 'error'
+    case 'out': return 'error'
+    case 'suspended': return 'error'
+    case 'illness': return 'error'
+    default: return 'default'
+  }
+}
 
 const PrintConfiguration = ({ onBack, athletes }) => {
   const [pageSize, setPageSize] = useState('a4')
@@ -142,7 +162,7 @@ const PrintConfiguration = ({ onBack, athletes }) => {
 
         <Divider />
 
-        {/* Preview */}
+                  {/* Preview */}
         <Box>
           <Typography variant="h6" gutterBottom>Preview</Typography>
           <Paper 
@@ -159,7 +179,70 @@ const PrintConfiguration = ({ onBack, athletes }) => {
               transition: 'transform 0.3s ease'
             }}
           >
-            <Box sx={{ 
+            <Box sx={{
+              width: '100%',
+              height: '100%',
+              display: 'flex',
+              flexDirection: 'column',
+              gap: 3
+            }}>
+              {/* Header */}
+              <Typography variant="h5" align="center" gutterBottom>
+                Player Availability Report
+              </Typography>
+              
+              {/* Date and Time */}
+              <Typography variant="body2" align="right" color="text.secondary">
+                Generated on {new Date().toLocaleDateString()} at {new Date().toLocaleTimeString()}
+              </Typography>
+
+              {/* Summary */}
+              <Box sx={{ mb: 3 }}>
+                <Typography variant="h6" gutterBottom>
+                  Squad Summary
+                </Typography>
+                <Typography variant="body1">
+                  Total Players: {athletes.length}<br />
+                  Available: {athletes.filter(a => a.availability_status === 'available').length}<br />
+                  Unavailable: {athletes.filter(a => a.availability_status !== 'available').length}
+                </Typography>
+              </Box>
+
+              {/* Availability Table */}
+              <Box sx={{ mb: 3 }}>
+                <Typography variant="h6" gutterBottom>
+                  Player Availability by Position
+                </Typography>
+                <TableContainer>
+                  <Table size="small">
+                    <TableHead>
+                      <TableRow>
+                        <TableCell>Name</TableCell>
+                        <TableCell>Position</TableCell>
+                        <TableCell>Status</TableCell>
+                        <TableCell>Notes</TableCell>
+                      </TableRow>
+                    </TableHead>
+                    <TableBody>
+                      {athletes.map((athlete) => (
+                        <TableRow key={athlete.id}>
+                          <TableCell>{athlete.firstname} {athlete.lastname}</TableCell>
+                          <TableCell>{athlete.position}</TableCell>
+                          <TableCell>
+                            <Chip
+                              label={athlete.availability_status}
+                              size="small"
+                              color={getAvailabilityColor(athlete.availability_status)}
+                            />
+                          </TableCell>
+                          <TableCell>{athlete.injury_status || '-'}</TableCell>
+                        </TableRow>
+                      ))}
+                    </TableBody>
+                  </Table>
+                </TableContainer>
+              </Box>
+            </Box> 
               maxWidth: pageSize === 'a4' ? '210mm' : pageSize === 'letter' ? '216mm' : '216mm',
               margin: '0 auto',
               p: 2

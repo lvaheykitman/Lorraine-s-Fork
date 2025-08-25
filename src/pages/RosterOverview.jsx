@@ -69,11 +69,11 @@ function RosterOverview() {
       <Grid container spacing={3} sx={{ mb: 3 }}>
         {/* Active Injuries Card */}
         <Grid item xs={12} md={4}>
-          <Paper sx={{ p: 3, height: '100%', boxShadow: 2 }}>
+          <Card sx={{ p: 3, height: '100%', bgcolor: 'white' }}>
             <Box sx={{ textAlign: 'left' }}>
               <Typography variant="h3" sx={{ 
                 fontWeight: 700, 
-                color: '#dc3545',
+                color: '#ff0000',
                 mb: 1
               }}>
                 {teamData.activeInjuries}
@@ -85,16 +85,16 @@ function RosterOverview() {
                 {injuryPercentage}% of squad
               </Typography>
             </Box>
-          </Paper>
+          </Card>
         </Grid>
 
         {/* Active Illness Card */}
         <Grid item xs={12} md={4}>
-          <Paper sx={{ p: 3, height: '100%', boxShadow: 2 }}>
+          <Card sx={{ p: 3, height: '100%', bgcolor: 'white' }}>
             <Box sx={{ textAlign: 'left' }}>
               <Typography variant="h3" sx={{ 
                 fontWeight: 700, 
-                color: '#dc3545',
+                color: '#ff0000',
                 mb: 1
               }}>
                 {teamData.activeIllness}
@@ -106,16 +106,16 @@ function RosterOverview() {
                 {illnessPercentage}% of squad
               </Typography>
             </Box>
-          </Paper>
+          </Card>
         </Grid>
 
         {/* Fit-to-Play Index Card */}
         <Grid item xs={12} md={4}>
-          <Paper sx={{ p: 3, height: '100%', boxShadow: 2 }}>
+          <Card sx={{ p: 3, height: '100%', bgcolor: 'white' }}>
             <Box sx={{ textAlign: 'left' }}>
               <Typography variant="h3" sx={{ 
                 fontWeight: 700, 
-                color: '#dc3545',
+                color: '#ff0000',
                 mb: 1
               }}>
                 {teamData.fitToPlayIndex}%
@@ -127,7 +127,7 @@ function RosterOverview() {
                 Overall team readiness
               </Typography>
             </Box>
-          </Paper>
+          </Card>
         </Grid>
       </Grid>
 
