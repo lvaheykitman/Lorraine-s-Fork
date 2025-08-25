@@ -28,10 +28,8 @@ import {
 import {
   GridView as GridViewIcon,
   ViewList as ViewListIcon,
-  Search as SearchIcon,
-  Print as PrintIcon
+  Search as SearchIcon
 } from '@mui/icons-material'
-import PrintConfiguration from './PrintConfiguration'
 
 // Group positions
 const positionGroups = {
@@ -48,7 +46,7 @@ const AvailabilityTable = ({ athletes }) => {
   const [viewMode, setViewMode] = useState('ladder')
   const [page, setPage] = useState(0)
   const [rowsPerPage, setRowsPerPage] = useState(10)
-  const [showPrintConfig, setShowPrintConfig] = useState(false)
+  // State for table configuration
 
   // Get unique squads from athletes
   const squads = ['all', ...new Set(athletes.map(a => a.squad_name))]
@@ -154,9 +152,6 @@ const AvailabilityTable = ({ athletes }) => {
     )
   }
 
-  if (showPrintConfig) {
-    return <PrintConfiguration onBack={() => setShowPrintConfig(false)} athletes={filteredAthletes} />
-  }
 
   return (
     <Paper sx={{ p: 3 }}>
@@ -239,17 +234,7 @@ const AvailabilityTable = ({ athletes }) => {
             </ToggleButtonGroup>
           </Grid>
 
-          {/* Print Button */}
-          <Grid item xs={12} sm={2}>
-            <Button
-              variant="outlined"
-              startIcon={<PrintIcon />}
-              onClick={() => setShowPrintConfig(true)}
-              sx={{ width: '100%', height: '100%' }}
-            >
-              Print
-            </Button>
-          </Grid>
+
         </Grid>
       </Box>
 
