@@ -130,7 +130,6 @@ function RosterOverview() {
           </Paper>
         </Grid>
       </Grid>
-      </Paper>
 
       {/* Row 4: Availability Table */}
       <Box sx={{ mb: 3 }}>
