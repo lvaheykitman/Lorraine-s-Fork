@@ -52,7 +52,7 @@ function RosterOverview() {
           fontWeight: 700 // Bold
         }}
       >
-        Roster overview
+        Team overview
       </Typography>
 
       {/* Row 3: Team Banner with Cards */}
