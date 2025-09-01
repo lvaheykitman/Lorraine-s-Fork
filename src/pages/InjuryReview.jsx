@@ -29,6 +29,7 @@ import {
   Checkbox,
   ListItemButton
 } from '@mui/material'
+import ShareDialog from '../components/ShareDialog'
 import {
   BarChart,
   Bar,
@@ -139,6 +140,7 @@ function InjuryReview() {
   const [detailPanelOpen, setDetailPanelOpen] = useState(false)
   const [lastUpdate, setLastUpdate] = useState(new Date())
   const [exportDialogOpen, setExportDialogOpen] = useState(false)
+  const [shareOpen, setShareOpen] = useState(false)
 
   const datasetKeys = Object.keys(injuryDatasets)
   const currentDataset = injuryDatasets[datasetKeys[activeTab]]
@@ -178,11 +180,7 @@ function InjuryReview() {
     setExportDialogOpen(true)
   }
 
-  const handleShare = () => {
-    // In a real app, this would open a share dialog
-    navigator.clipboard.writeText(window.location.href)
-    alert('Link copied to clipboard!')
-  }
+  const handleShare = () => setShareOpen(true)
 
   const getSeverityColor = (severity) => {
     switch (severity) {
@@ -269,6 +267,12 @@ function InjuryReview() {
           {currentDataset.insight}
         </Typography>
       </Paper>
+      <ShareDialog
+        open={shareOpen}
+        onClose={() => setShareOpen(false)}
+        itemName={`${currentDataset.title} chart`}
+        owner="You"
+      />
 
       {/* Filters */}
       <Grid container spacing={2} sx={{ mb: 3 }}>

@@ -34,6 +34,7 @@ import {
   Share as ShareIcon
 } from '@mui/icons-material'
 import PrintConfiguration from './PrintConfiguration'
+import ShareDialog from './ShareDialog'
 
 // Group positions
 const positionGroups = {
@@ -51,6 +52,7 @@ const AvailabilityTable = ({ athletes }) => {
   const [page, setPage] = useState(0)
   const [rowsPerPage, setRowsPerPage] = useState(15)
   const [showPrintConfig, setShowPrintConfig] = useState(false)
+  const [shareOpen, setShareOpen] = useState(false)
 
   // Get unique squads from athletes
   const squads = ['all', ...new Set(athletes.map(a => a.squad_name))]
@@ -158,7 +160,7 @@ const AvailabilityTable = ({ athletes }) => {
           <Button
             variant="contained"
             startIcon={<ShareIcon />}
-            onClick={() => {/* Share handler to be implemented */}}
+            onClick={() => setShareOpen(true)}
             sx={{
               bgcolor: 'grey.100',
               color: 'grey.800',
@@ -363,6 +365,12 @@ const AvailabilityTable = ({ athletes }) => {
         </>
       )}
     </Paper>
+    <ShareDialog
+      open={shareOpen}
+      onClose={() => setShareOpen(false)}
+      itemName="Availability Table"
+      owner="You"
+    />
   )
 }
 
