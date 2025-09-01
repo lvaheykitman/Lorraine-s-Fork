@@ -37,7 +37,8 @@ import {
   CartesianGrid,
   Tooltip as RechartsTooltip,
   ResponsiveContainer,
-  Cell
+  Cell,
+  Legend
 } from 'recharts'
 import {
   LocalHospitalOutlined,
@@ -53,69 +54,100 @@ import {
 } from '@mui/icons-material'
 
 
-// Mock data for different injury datasets
-const injuryDatasets = {
-  injuryTypes: {
-    title: 'Injury types',
-    description: 'Distribution of injuries by type and severity',
-    data: [
-      { name: 'Hamstring', count: 12, percentage: 24, severity: 'moderate', recoveryTime: '3-4 weeks' },
-      { name: 'Ankle', count: 8, percentage: 16, severity: 'mild', recoveryTime: '1-2 weeks' },
-      { name: 'Knee', count: 6, percentage: 12, severity: 'severe', recoveryTime: '6-8 weeks' },
-      { name: 'Shoulder', count: 5, percentage: 10, severity: 'moderate', recoveryTime: '4-6 weeks' },
-      { name: 'Concussion', count: 4, percentage: 8, severity: 'moderate', recoveryTime: '2-3 weeks' },
-      { name: 'Back', count: 3, percentage: 6, severity: 'mild', recoveryTime: '1-2 weeks' },
-      { name: 'Groin', count: 2, percentage: 4, severity: 'mild', recoveryTime: '1-2 weeks' },
-      { name: 'Hip', count: 2, percentage: 4, severity: 'moderate', recoveryTime: '2-3 weeks' }
-    ],
-    insight: "This month's hamstring injuries decreased by 15% compared to last month, indicating improved warm-up protocols."
+// Seasons and exposure types
+const seasons = ['2021', '2022', '2023', '2024']
+const exposureDetailed = [
+  { key: 'training_contact', label: 'Training contact', color: '#B71C1C' },
+  { key: 'training_no_contact', label: 'Training no contact', color: '#D32F2F' },
+  { key: 'training_other', label: 'Training other mechanisms', color: '#E57373' },
+  { key: 'games_contact', label: 'Games contact', color: '#0D47A1' },
+  { key: 'games_no_contact', label: 'Games no contact', color: '#1976D2' },
+  { key: 'games_other', label: 'Games other mechanisms', color: '#64B5F6' }
+]
+const exposureSimple = [
+  { key: 'training', label: 'Training', color: '#D32F2F' },
+  { key: 'games', label: 'Games', color: '#1976D2' }
+]
+
+// Mock chart data per spec
+const buildCountsData = () => seasons.map((season, i) => ({
+  season,
+  training_contact: 20 + i * 2,
+  training_no_contact: 12 + i,
+  training_other: 8 + i,
+  games_contact: 26 + i * 3,
+  games_no_contact: 10 + i,
+  games_other: 6 + i
+}))
+
+const buildRateData = () => seasons.map((season, i) => ({
+  season,
+  training: 7 + i * 0.8, // injuries per 100 hours
+  games: 11 + i * 0.6
+}))
+
+const buildTimeLossData = () => seasons.map((season, i) => ({
+  season,
+  training_contact: 120 + i * 10,
+  training_no_contact: 80 + i * 6,
+  training_other: 60 + i * 4,
+  games_contact: 160 + i * 12,
+  games_no_contact: 70 + i * 5,
+  games_other: 50 + i * 3
+}))
+
+const buildBurdenData = () => seasons.map((season, i) => ({
+  season,
+  training: 140 + i * 9, // total time-loss measure
+  games: 180 + i * 11
+}))
+
+const chartConfigs = [
+  {
+    key: 'injuryCounts',
+    title: 'Injury counts',
+    description: 'Injuries by season and exposure type',
+    layout: 'verticalBars',
+    xAxisLabel: 'Seasons',
+    yAxisLabel: 'Number of injuries',
+    data: buildCountsData(),
+    series: exposureDetailed,
+    stacked: true
   },
-  injuryLocations: {
-    title: 'Injury locations',
-    description: 'Injuries by body location and frequency',
-    data: [
-      { name: 'Lower Body', count: 18, percentage: 36, severity: 'moderate', recoveryTime: '3-4 weeks' },
-      { name: 'Upper Body', count: 12, percentage: 24, severity: 'mild', recoveryTime: '2-3 weeks' },
-      { name: 'Head/Neck', count: 8, percentage: 16, severity: 'moderate', recoveryTime: '2-4 weeks' },
-      { name: 'Core', count: 6, percentage: 12, severity: 'mild', recoveryTime: '1-2 weeks' },
-      { name: 'Extremities', count: 4, percentage: 8, severity: 'severe', recoveryTime: '4-6 weeks' },
-      { name: 'Spine', count: 3, percentage: 6, severity: 'severe', recoveryTime: '5-6 weeks' },
-      { name: 'Joints', count: 2, percentage: 4, severity: 'moderate', recoveryTime: '3-4 weeks' },
-      { name: 'Muscles', count: 2, percentage: 4, severity: 'mild', recoveryTime: '1-2 weeks' }
-    ],
-    insight: "Lower body injuries remain the most common, but prevention programs have reduced severity by 20%."
+  {
+    key: 'injuryRates',
+    title: 'Injury rates',
+    description: 'Injury rate per 100 hours by season and exposure type',
+    layout: 'verticalBars',
+    xAxisLabel: 'Seasons',
+    yAxisLabel: 'Injuries per 100 hours',
+    data: buildRateData(),
+    series: exposureSimple,
+    stacked: false
   },
-  recoveryTimes: {
-    title: 'Recovery times',
-    description: 'Average recovery duration by injury category',
-    data: [
-      { name: '1-2 weeks', count: 15, percentage: 30, severity: 'mild', examples: 'Minor sprains, bruises' },
-      { name: '3-4 weeks', count: 12, percentage: 24, severity: 'moderate', examples: 'Hamstring strains, minor fractures' },
-      { name: '5-8 weeks', count: 8, percentage: 16, severity: 'moderate', examples: 'Torn ligaments, stress fractures' },
-      { name: '9-12 weeks', count: 6, percentage: 12, severity: 'severe', examples: 'Major surgeries, complex fractures' },
-      { name: '12+ weeks', count: 4, percentage: 8, severity: 'severe', examples: 'ACL reconstruction, major surgeries' },
-      { name: '2-3 weeks', count: 3, percentage: 6, severity: 'mild', examples: 'Muscle strains, minor tears' },
-      { name: '6-7 weeks', count: 2, percentage: 4, severity: 'moderate', examples: 'Joint sprains, moderate tears' },
-      { name: '13-16 weeks', count: 1, percentage: 2, severity: 'severe', examples: 'Complex reconstructions' }
-    ],
-    insight: "Average recovery time improved by 12% this month due to enhanced rehabilitation protocols."
+  {
+    key: 'timeLossSum',
+    title: 'Time-loss total',
+    description: 'Total time-loss by season and exposure type',
+    layout: 'horizontalBars',
+    xAxisLabel: 'Total time-loss',
+    yAxisLabel: 'Seasons',
+    data: buildTimeLossData(),
+    series: exposureDetailed,
+    stacked: true
   },
-  injuryTrends: {
-    title: 'Injury trends',
-    description: 'Monthly injury patterns and trends',
-    data: [
-      { name: 'Jan', count: 8, percentage: 16, trend: 'decreasing', change: -15 },
-      { name: 'Feb', count: 6, percentage: 12, trend: 'decreasing', change: -25 },
-      { name: 'Mar', count: 10, percentage: 20, trend: 'increasing', change: 67 },
-      { name: 'Apr', count: 7, percentage: 14, trend: 'decreasing', change: -30 },
-      { name: 'May', count: 5, percentage: 10, trend: 'decreasing', change: -29 },
-      { name: 'Jun', count: 9, percentage: 18, trend: 'increasing', change: 80 },
-      { name: 'Jul', count: 7, percentage: 14, trend: 'decreasing', change: -22 },
-      { name: 'Aug', count: 4, percentage: 8, trend: 'decreasing', change: -43 }
-    ],
-    insight: "Overall injury rate has decreased by 18% compared to the same period last year."
+  {
+    key: 'timeLossRates',
+    title: 'Time-loss rates',
+    description: 'Injury burden by season and exposure type',
+    layout: 'horizontalBars',
+    xAxisLabel: 'Total time-loss',
+    yAxisLabel: 'Seasons',
+    data: buildBurdenData(),
+    series: exposureSimple,
+    stacked: false
   }
-}
+]
 
 // Time range options
 const timeRanges = [
@@ -140,8 +172,7 @@ function InjuryReview() {
   const [lastUpdate, setLastUpdate] = useState(new Date())
   const [exportDialogOpen, setExportDialogOpen] = useState(false)
 
-  const datasetKeys = Object.keys(injuryDatasets)
-  const currentDataset = injuryDatasets[datasetKeys[activeTab]]
+  const currentChart = chartConfigs[activeTab]
 
   // Auto-refresh simulation
   useEffect(() => {
@@ -340,12 +371,8 @@ function InjuryReview() {
           variant="scrollable"
           scrollButtons="auto"
         >
-          {datasetKeys.map((key, index) => (
-            <Tab 
-              key={key} 
-              label={injuryDatasets[key].title} 
-              sx={{ textTransform: 'none' }}
-            />
+          {chartConfigs.map((cfg) => (
+            <Tab key={cfg.key} label={cfg.title} sx={{ textTransform: 'none' }} />
           ))}
         </Tabs>
       </Paper>
@@ -355,10 +382,10 @@ function InjuryReview() {
         <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', mb: 3 }}>
           <Box>
             <Typography variant="h6" gutterBottom>
-              {currentDataset.title}
+              {currentChart.title}
             </Typography>
             <Typography variant="body2" color="text.secondary">
-              {currentDataset.description}
+              {currentChart.description}
             </Typography>
           </Box>
           <Box sx={{ display: 'flex', gap: 1 }}>
@@ -397,43 +424,31 @@ function InjuryReview() {
           </Box>
         </Box>
         
-        <Box sx={{ height: 400 }}>
+        <Box sx={{ height: 420 }}>
           <ResponsiveContainer width="100%" height="100%">
-            <BarChart
-              data={currentDataset.data}
-              margin={{ top: 20, right: 30, left: 20, bottom: 5 }}
-              onClick={handleBarClick}
-            >
-              <CartesianGrid strokeDasharray="3 3" />
-              <XAxis 
-                dataKey="name" 
-                angle={-45}
-                textAnchor="end"
-                height={80}
-                fontSize={12}
-              />
-              <YAxis fontSize={12} />
-              <RechartsTooltip content={<CustomTooltip />} />
-              <Bar 
-                dataKey="count" 
-                fill="var(--color-primary)"
-                radius={[4, 4, 0, 0]}
-              >
-                {currentDataset.data.map((entry, index) => (
-                  <Cell 
-                    key={`cell-${index}`}
-                    fill={selectedBar && selectedBar.index === index 
-                      ? 'var(--color-secondary)' 
-                      : entry.severity 
-                        ? getSeverityColor(entry.severity)
-                        : entry.trend
-                          ? getTrendColor(entry.trend)
-                          : 'var(--color-primary)'
-                    }
-                  />
+            {currentChart.layout === 'verticalBars' ? (
+              <BarChart data={currentChart.data} margin={{ top: 10, right: 30, left: 10, bottom: 20 }}>
+                <CartesianGrid strokeDasharray="3 3" />
+                <XAxis dataKey="season" label={{ value: currentChart.xAxisLabel, position: 'insideBottom', offset: -10 }} />
+                <YAxis label={{ value: currentChart.yAxisLabel, angle: -90, position: 'insideLeft' }} />
+                <RechartsTooltip />
+                <Legend />
+                {currentChart.series.map((s) => (
+                  <Bar key={s.key} dataKey={s.key} name={s.label} fill={s.color} stackId={currentChart.stacked ? 'a' : undefined} radius={[4, 4, 0, 0]} />
                 ))}
-              </Bar>
-            </BarChart>
+              </BarChart>
+            ) : (
+              <BarChart data={currentChart.data} layout="vertical" margin={{ top: 10, right: 30, left: 10, bottom: 20 }}>
+                <CartesianGrid strokeDasharray="3 3" />
+                <XAxis type="number" label={{ value: currentChart.xAxisLabel, position: 'insideBottom', offset: -10 }} />
+                <YAxis type="category" dataKey="season" width={70} label={{ value: currentChart.yAxisLabel, angle: -90, position: 'insideLeft' }} />
+                <RechartsTooltip />
+                <Legend />
+                {currentChart.series.map((s) => (
+                  <Bar key={s.key} dataKey={s.key} name={s.label} fill={s.color} stackId={currentChart.stacked ? 'a' : undefined} radius={[0, 4, 4, 0]} />
+                ))}
+              </BarChart>
+            )}
           </ResponsiveContainer>
         </Box>
       </Paper>
