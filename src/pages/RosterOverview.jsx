@@ -67,6 +67,7 @@ function RosterOverview() {
       >
         {/* Team Info */}
         <Box sx={{ display: 'flex', alignItems: 'center', mb: 3 }}>
+          <Box component="img" src="/assets/logos/teams/nfl/cardinals.png" alt="Arizona Cardinals logo" sx={{ width: 56, height: 56, objectFit: 'contain', mr: 2, filter: 'brightness(0) invert(1)' }} />
           <Box>
                          <Typography variant="h1" sx={{ 
                fontSize: '42px', // Reduced from 60px by 30%
