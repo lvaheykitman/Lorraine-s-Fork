@@ -55,66 +55,100 @@ import {
 
 
 // Mock data for different injury datasets
+const exposureTypes = [
+  { name: 'Training contact', color: '#e57373' },
+  { name: 'Training no contact', color: '#81c784' },
+  { name: 'Training other mechanisms', color: '#64b5f6' },
+  { name: 'Games contact', color: '#ff8a65' },
+  { name: 'Games no contact', color: '#4db6ac' },
+  { name: 'Games other mechanisms', color: '#7986cb' }
+]
+
 const injuryDatasets = {
-  injuryTypes: {
-    title: 'Injury types',
-    description: 'Distribution of injuries by type and severity',
+  injuryCounts: {
+    title: 'Injury counts',
+    description: 'Injuries by season and exposure type',
     data: [
-      { name: 'Hamstring', count: 12, percentage: 24, severity: 'moderate', recoveryTime: '3-4 weeks' },
-      { name: 'Ankle', count: 8, percentage: 16, severity: 'mild', recoveryTime: '1-2 weeks' },
-      { name: 'Knee', count: 6, percentage: 12, severity: 'severe', recoveryTime: '6-8 weeks' },
-      { name: 'Shoulder', count: 5, percentage: 10, severity: 'moderate', recoveryTime: '4-6 weeks' },
-      { name: 'Concussion', count: 4, percentage: 8, severity: 'moderate', recoveryTime: '2-3 weeks' },
-      { name: 'Back', count: 3, percentage: 6, severity: 'mild', recoveryTime: '1-2 weeks' },
-      { name: 'Groin', count: 2, percentage: 4, severity: 'mild', recoveryTime: '1-2 weeks' },
-      { name: 'Hip', count: 2, percentage: 4, severity: 'moderate', recoveryTime: '2-3 weeks' }
+      {
+        name: '2022',
+        'Training contact': 45,
+        'Training no contact': 30,
+        'Training other mechanisms': 15,
+        'Games contact': 35,
+        'Games no contact': 20,
+        'Games other mechanisms': 10
+      },
+      {
+        name: '2023',
+        'Training contact': 38,
+        'Training no contact': 25,
+        'Training other mechanisms': 12,
+        'Games contact': 30,
+        'Games no contact': 15,
+        'Games other mechanisms': 8
+      },
+      {
+        name: '2024',
+        'Training contact': 32,
+        'Training no contact': 20,
+        'Training other mechanisms': 10,
+        'Games contact': 25,
+        'Games no contact': 12,
+        'Games other mechanisms': 6
+      }
     ],
-    insight: "This month's hamstring injuries decreased by 15% compared to last month, indicating improved warm-up protocols."
+    insight: "Injury counts show a consistent decrease across all exposure types over the past three seasons."
   },
-  injuryLocations: {
-    title: 'Injury locations',
-    description: 'Injuries by body location and frequency',
+  injuryRates: {
+    title: 'Injury rates',
+    description: 'Injury rate by season and exposure type (per 100 hours)',
     data: [
-      { name: 'Lower Body', count: 18, percentage: 36, severity: 'moderate', recoveryTime: '3-4 weeks' },
-      { name: 'Upper Body', count: 12, percentage: 24, severity: 'mild', recoveryTime: '2-3 weeks' },
-      { name: 'Head/Neck', count: 8, percentage: 16, severity: 'moderate', recoveryTime: '2-4 weeks' },
-      { name: 'Core', count: 6, percentage: 12, severity: 'mild', recoveryTime: '1-2 weeks' },
-      { name: 'Extremities', count: 4, percentage: 8, severity: 'severe', recoveryTime: '4-6 weeks' },
-      { name: 'Spine', count: 3, percentage: 6, severity: 'severe', recoveryTime: '5-6 weeks' },
-      { name: 'Joints', count: 2, percentage: 4, severity: 'moderate', recoveryTime: '3-4 weeks' },
-      { name: 'Muscles', count: 2, percentage: 4, severity: 'mild', recoveryTime: '1-2 weeks' }
+      { name: '2020/21', rate: 8.5, exposure: 'Training' },
+      { name: '2021/22', rate: 7.2, exposure: 'Training' },
+      { name: '2022/23', rate: 6.1, exposure: 'Training' },
+      { name: '2020/21', rate: 12.3, exposure: 'Games' },
+      { name: '2021/22', rate: 10.8, exposure: 'Games' },
+      { name: '2022/23', rate: 9.4, exposure: 'Games' }
     ],
-    insight: "Lower body injuries remain the most common, but prevention programs have reduced severity by 20%."
+    insight: "Game-related injury rates remain higher than training rates, but both show improving trends."
   },
-  recoveryTimes: {
-    title: 'Recovery times',
-    description: 'Average recovery duration by injury category',
+  timeLossSum: {
+    title: 'SUM of time loss',
+    description: 'Total time-loss by season and exposure type',
     data: [
-      { name: '1-2 weeks', count: 15, percentage: 30, severity: 'mild', examples: 'Minor sprains, bruises' },
-      { name: '3-4 weeks', count: 12, percentage: 24, severity: 'moderate', examples: 'Hamstring strains, minor fractures' },
-      { name: '5-8 weeks', count: 8, percentage: 16, severity: 'moderate', examples: 'Torn ligaments, stress fractures' },
-      { name: '9-12 weeks', count: 6, percentage: 12, severity: 'severe', examples: 'Major surgeries, complex fractures' },
-      { name: '12+ weeks', count: 4, percentage: 8, severity: 'severe', examples: 'ACL reconstruction, major surgeries' },
-      { name: '2-3 weeks', count: 3, percentage: 6, severity: 'mild', examples: 'Muscle strains, minor tears' },
-      { name: '6-7 weeks', count: 2, percentage: 4, severity: 'moderate', examples: 'Joint sprains, moderate tears' },
-      { name: '13-16 weeks', count: 1, percentage: 2, severity: 'severe', examples: 'Complex reconstructions' }
+      { name: '2020/21', days: 450, exposure: 'Training contact' },
+      { name: '2021/22', days: 380, exposure: 'Training contact' },
+      { name: '2022/23', days: 320, exposure: 'Training contact' },
+      { name: '2020/21', days: 300, exposure: 'Training no contact' },
+      { name: '2021/22', days: 250, exposure: 'Training no contact' },
+      { name: '2022/23', days: 200, exposure: 'Training no contact' },
+      { name: '2020/21', days: 150, exposure: 'Training other mechanisms' },
+      { name: '2021/22', days: 120, exposure: 'Training other mechanisms' },
+      { name: '2022/23', days: 100, exposure: 'Training other mechanisms' },
+      { name: '2020/21', days: 350, exposure: 'Games contact' },
+      { name: '2021/22', days: 300, exposure: 'Games contact' },
+      { name: '2022/23', days: 250, exposure: 'Games contact' },
+      { name: '2020/21', days: 200, exposure: 'Games no contact' },
+      { name: '2021/22', days: 150, exposure: 'Games no contact' },
+      { name: '2022/23', days: 120, exposure: 'Games no contact' },
+      { name: '2020/21', days: 100, exposure: 'Games other mechanisms' },
+      { name: '2021/22', days: 80, exposure: 'Games other mechanisms' },
+      { name: '2022/23', days: 60, exposure: 'Games other mechanisms' }
     ],
-    insight: "Average recovery time improved by 12% this month due to enhanced rehabilitation protocols."
+    insight: "Contact injuries during training and games contribute to the highest time loss, but showing improvement year over year."
   },
-  injuryTrends: {
-    title: 'Injury trends',
-    description: 'Monthly injury patterns and trends',
+  timeLossRates: {
+    title: 'Time loss rates',
+    description: 'Injury burden by season and exposure type',
     data: [
-      { name: 'Jan', count: 8, percentage: 16, trend: 'decreasing', change: -15 },
-      { name: 'Feb', count: 6, percentage: 12, trend: 'decreasing', change: -25 },
-      { name: 'Mar', count: 10, percentage: 20, trend: 'increasing', change: 67 },
-      { name: 'Apr', count: 7, percentage: 14, trend: 'decreasing', change: -30 },
-      { name: 'May', count: 5, percentage: 10, trend: 'decreasing', change: -29 },
-      { name: 'Jun', count: 9, percentage: 18, trend: 'increasing', change: 80 },
-      { name: 'Jul', count: 7, percentage: 14, trend: 'decreasing', change: -22 },
-      { name: 'Aug', count: 4, percentage: 8, trend: 'decreasing', change: -43 }
+      { name: '2020/21', rate: 15.2, exposure: 'Training' },
+      { name: '2021/22', rate: 12.8, exposure: 'Training' },
+      { name: '2022/23', rate: 10.5, exposure: 'Training' },
+      { name: '2020/21', rate: 22.4, exposure: 'Games' },
+      { name: '2021/22', rate: 19.6, exposure: 'Games' },
+      { name: '2022/23', rate: 16.8, exposure: 'Games' }
     ],
-    insight: "Overall injury rate has decreased by 18% compared to the same period last year."
+    insight: "Time loss rates are decreasing for both training and game exposures, indicating improved injury management."
   }
 }
 
@@ -197,44 +231,27 @@ function InjuryReview() {
 
   const CustomTooltip = ({ active, payload, label }) => {
     if (active && payload && payload.length) {
-      const data = payload[0].payload
       return (
         <Paper sx={{ p: 2, border: '1px solid', borderColor: 'divider' }}>
           <Typography variant="subtitle2" sx={{ fontWeight: 600, mb: 1 }}>
-            {label}
+            Season: {label}
           </Typography>
-          <Typography variant="body2" color="text.secondary">
-            Count: {data.count}
+          {payload.map((entry, index) => (
+            <Box key={index} sx={{ display: 'flex', alignItems: 'center', gap: 1, mb: 0.5 }}>
+              <Box sx={{ 
+                width: 12, 
+                height: 12, 
+                bgcolor: entry.color,
+                borderRadius: '2px'
+              }} />
+              <Typography variant="body2" color="text.secondary">
+                {entry.name}: {entry.value}
+              </Typography>
+            </Box>
+          ))}
+          <Typography variant="body2" color="text.secondary" sx={{ mt: 1, pt: 1, borderTop: '1px solid', borderColor: 'divider' }}>
+            Total: {payload.reduce((sum, entry) => sum + entry.value, 0)}
           </Typography>
-          <Typography variant="body2" color="text.secondary">
-            Percentage: {data.percentage}%
-          </Typography>
-          {data.severity && (
-            <Typography variant="body2" color="text.secondary">
-              Severity: {data.severity}
-            </Typography>
-          )}
-          {data.recoveryTime && (
-            <Typography variant="body2" color="text.secondary">
-              Recovery: {data.recoveryTime}
-            </Typography>
-          )}
-          {data.examples && (
-            <Typography variant="body2" color="text.secondary">
-              Examples: {data.examples}
-            </Typography>
-          )}
-          {data.change && (
-            <Typography 
-              variant="body2" 
-                          sx={{ 
-              color: data.change > 0 ? 'error.main' : 'success.main',
-              fontWeight: 600
-            }}
-            >
-              Change: {data.change > 0 ? '+' : ''}{data.change}%
-            </Typography>
-          )}
         </Paper>
       )
     }
@@ -364,6 +381,10 @@ function InjuryReview() {
             <Typography variant="body2" color="text.secondary">
               {currentDataset.description}
             </Typography>
+            <Typography variant="caption" color="text.secondary" sx={{ display: 'block', mt: 1 }}>
+              <InfoOutlined sx={{ fontSize: 14, verticalAlign: 'middle', mr: 0.5 }} />
+              Hover on bars for detailed breakdown
+            </Typography>
           </Box>
           <Box sx={{ display: 'flex', gap: 1 }}>
             <Button
@@ -405,38 +426,44 @@ function InjuryReview() {
           <ResponsiveContainer width="100%" height="100%">
             <BarChart
               data={currentDataset.data}
-              margin={{ top: 20, right: 30, left: 20, bottom: 5 }}
+              margin={{ top: 20, right: 30, left: 50, bottom: 70 }}
               onClick={handleBarClick}
             >
               <CartesianGrid strokeDasharray="3 3" />
               <XAxis 
                 dataKey="name" 
-                angle={-45}
-                textAnchor="end"
-                height={80}
-                fontSize={12}
+                label={{ 
+                  value: 'Seasons',
+                  position: 'bottom',
+                  offset: 40
+                }}
               />
-              <YAxis fontSize={12} />
+              <YAxis 
+                label={{ 
+                  value: 'No. of injuries',
+                  angle: -90,
+                  position: 'insideLeft',
+                  offset: -40
+                }}
+              />
               <RechartsTooltip content={<CustomTooltip />} />
-              <Bar 
-                dataKey="count" 
-                fill="var(--color-primary)"
-                radius={[4, 4, 0, 0]}
-              >
-                {currentDataset.data.map((entry, index) => (
-                  <Cell 
-                    key={`cell-${index}`}
-                    fill={selectedBar && selectedBar.index === index 
-                      ? 'var(--color-secondary)' 
-                      : entry.severity 
-                        ? getSeverityColor(entry.severity)
-                        : entry.trend
-                          ? getTrendColor(entry.trend)
-                          : 'var(--color-primary)'
-                    }
-                  />
-                ))}
-              </Bar>
+              <Legend 
+                verticalAlign="bottom" 
+                height={60}
+                wrapperStyle={{
+                  paddingTop: '20px',
+                  borderTop: '1px solid #eee'
+                }}
+              />
+              {exposureTypes.map((type, index) => (
+                <Bar
+                  key={type.name}
+                  dataKey={type.name}
+                  stackId="a"
+                  fill={type.color}
+                  name={type.name}
+                />
+              ))}
             </BarChart>
           </ResponsiveContainer>
         </Box>
