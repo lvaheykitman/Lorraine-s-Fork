@@ -162,13 +162,13 @@ const AvailabilityTable = ({ athletes }) => {
             startIcon={<ShareIcon />}
             onClick={() => setShareOpen(true)}
             sx={{
-              bgcolor: 'grey.100',
-              color: 'grey.800',
+              bgcolor: '#FFB6C1', // Light pink
+              color: '#C71585', // Deep pink for text
               border: '1px solid',
-              borderColor: 'grey.300',
+              borderColor: '#FF69B4', // Hot pink for border
               '&:hover': {
-                bgcolor: 'grey.200',
-                borderColor: 'grey.400'
+                bgcolor: '#FFC0CB', // Pink hover
+                borderColor: '#DB7093' // Pale violet red
               },
               textTransform: 'none',
               fontWeight: 500
