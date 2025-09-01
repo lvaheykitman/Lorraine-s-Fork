@@ -212,24 +212,24 @@ function TrainingDevelopment() {
             }}
           >
             <Grid container spacing={3} alignItems="center">
-              {/* Avatar and Basic Info */}
-              <Grid item xs={12} md={4}>
-                <Box sx={{ display: 'flex', alignItems: 'center', gap: 2 }}>
+              {/* Avatar Row */}
+              <Grid item xs={12} sx={{ mb: 2 }}>
+                <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 2 }}>
                   <Avatar 
                     src={`/public/assets/logos/teams/nfl/${selectedPlayer.firstname.toLowerCase()}-${selectedPlayer.lastname.toLowerCase()}.png`}
                     sx={{ 
-                      width: 80, 
-                      height: 80,
+                      width: 120, 
+                      height: 120,
                       border: '3px solid white',
                       bgcolor: 'white',
                       color: 'primary.main',
-                      fontSize: '1.5rem',
+                      fontSize: '2rem',
                       fontWeight: 'bold'
                     }}
                   >
                     {selectedPlayer.firstname[0]}{selectedPlayer.lastname[0]}
                   </Avatar>
-                  <Box>
+                  <Box sx={{ textAlign: 'center' }}>
                     <Typography variant="h5" sx={{ fontWeight: 700 }}>
                       {selectedPlayer.firstname} {selectedPlayer.lastname}
                     </Typography>
