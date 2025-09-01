@@ -77,7 +77,7 @@ function MainNavigation({ isCollapsed, onToggleCollapse }) {
         '& .MuiDrawer-paper': {
           width: isCollapsed ? 64 : 240,
           boxSizing: 'border-box',
-          background: 'linear-gradient(180deg, #3A8DEE 0%, rgba(0,0,0,0.8) 100%)',
+          background: 'linear-gradient(180deg, #0F28FF 0%, rgba(0,0,0,0.95) 35%, rgba(0,0,0,0.98) 100%)',
           color: 'white',
           borderRight: 'none',
           transition: 'width 0.2s ease-in-out'

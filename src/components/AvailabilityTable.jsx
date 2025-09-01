@@ -23,13 +23,15 @@ import {
   Chip,
   IconButton,
   Tooltip,
-  Avatar
+  Avatar,
+  Button
 } from '@mui/material'
 import {
   GridView as GridViewIcon,
   ViewList as ViewListIcon,
   Search as SearchIcon,
-  Print as PrintIcon
+  Print as PrintIcon,
+  Share as ShareIcon
 } from '@mui/icons-material'
 import PrintConfiguration from './PrintConfiguration'
 
@@ -178,40 +180,72 @@ const AvailabilityTable = ({ athletes }) => {
             </FormControl>
           </Grid>
 
-          {/* View Toggle */}
-          <Grid item xs={12} sm={2}>
-            <ToggleButtonGroup
-              value={viewMode}
-              exclusive
-              onChange={(e, newValue) => newValue && setViewMode(newValue)}
-              size="small"
-              sx={{ width: '100%' }}
-            >
-              <ToggleButton value="grid" sx={{ width: '50%' }}>
-                <Tooltip title="Grid View">
-                  <GridViewIcon />
-                </Tooltip>
-              </ToggleButton>
-              <ToggleButton value="ladder" sx={{ width: '50%' }}>
-                <Tooltip title="Ladder View">
-                  <ViewListIcon />
-                </Tooltip>
-              </ToggleButton>
-            </ToggleButtonGroup>
-          </Grid>
 
-          {/* Print Button */}
-          <Grid item xs={12} sm={1}>
-            <IconButton 
-              onClick={() => setShowPrintConfig(true)}
-              sx={{ width: '100%', height: '100%' }}
-            >
-              <Tooltip title="Print">
-                <PrintIcon />
-              </Tooltip>
-            </IconButton>
-          </Grid>
         </Grid>
+      </Box>
+
+      {/* Action Buttons and View Toggle */}
+      <Box sx={{ 
+        display: 'flex', 
+        justifyContent: 'flex-end', 
+        alignItems: 'center', 
+        gap: 2,
+        mb: 3 
+      }}>
+        {/* Action Buttons */}
+        <Box sx={{ display: 'flex', gap: 1 }}>
+          <Button
+            variant="contained"
+            startIcon={<ShareIcon />}
+            onClick={() => {/* Share handler to be implemented */}}
+            sx={{
+              bgcolor: '#0F28FF',
+              '&:hover': {
+                bgcolor: '#0920CC'
+              },
+              textTransform: 'none',
+              color: 'white',
+              fontWeight: 500
+            }}
+          >
+            Share
+          </Button>
+          <Button
+            variant="contained"
+            startIcon={<PrintIcon />}
+            onClick={() => setShowPrintConfig(true)}
+            sx={{
+              bgcolor: '#0F28FF',
+              '&:hover': {
+                bgcolor: '#0920CC'
+              },
+              textTransform: 'none',
+              color: 'white',
+              fontWeight: 500
+            }}
+          >
+            Print
+          </Button>
+        </Box>
+
+        {/* View Toggle */}
+        <ToggleButtonGroup
+          value={viewMode}
+          exclusive
+          onChange={(e, newValue) => newValue && setViewMode(newValue)}
+          size="small"
+        >
+          <ToggleButton value="grid">
+            <Tooltip title="Grid View">
+              <GridViewIcon />
+            </Tooltip>
+          </ToggleButton>
+          <ToggleButton value="ladder">
+            <Tooltip title="Ladder View">
+              <ViewListIcon />
+            </Tooltip>
+          </ToggleButton>
+        </ToggleButtonGroup>
       </Box>
 
       {/* Grid View */}

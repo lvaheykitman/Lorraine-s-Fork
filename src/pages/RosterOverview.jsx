@@ -60,7 +60,7 @@ function RosterOverview() {
         sx={{ 
           p: 3, 
           mb: 3, 
-          background: '#97233F',
+          background: 'linear-gradient(135deg, #97233F 0%, #7A1C32 50%, #5C1526 100%)',
           borderRadius: 2,
           position: 'relative'
         }}
