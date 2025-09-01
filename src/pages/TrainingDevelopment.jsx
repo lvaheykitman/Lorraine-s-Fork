@@ -325,8 +325,8 @@ function TrainingDevelopment() {
                         </Typography>
                         <Typography variant="h6" sx={{ color: '#1F2D44', mb: 1 }}>
                           Weight
-                        </Typography>
-                      </Box>
+        </Typography>
+      </Box>
                     </Paper>
                   </Grid>
                 </Grid>
@@ -335,6 +335,44 @@ function TrainingDevelopment() {
           </Paper>
 
           {/* Player Summary Section */}
+          {/* Recent Notes directly below the banner */}
+          <Box sx={{ mb: 3 }}>
+            <Paper sx={{ p: 3 }}>
+              <Box sx={{ display: 'flex', alignItems: 'center', mb: 2 }}>
+                <AccessTimeIcon sx={{ color: 'primary.main', mr: 1 }} />
+                <Typography variant="h6" color="primary.main">
+                  Recent Notes
+                </Typography>
+              </Box>
+              <Grid container spacing={2}>
+                {mockTrainingData.recentNotes.map((note, index) => (
+                  <Grid item xs={12} md={6} key={index}>
+                    <Paper 
+                      variant="outlined" 
+                      sx={{ 
+                        p: 2,
+                        bgcolor: note.type === 'coach' ? 'primary.50' : 'warning.50'
+                      }}
+                    >
+                      <Box sx={{ display: 'flex', justifyContent: 'space-between', mb: 1 }}>
+                        <Typography variant="caption" sx={{ fontWeight: 600 }}>
+                          {note.type === 'coach' ? 'Coach Note' : 'Medical Update'}
+                        </Typography>
+                        <Typography variant="caption" color="text.secondary">
+                          {new Date(note.date).toLocaleDateString()}
+        </Typography>
+                      </Box>
+                      <Typography variant="body2">
+                        {note.note}
+        </Typography>
+      </Paper>
+                  </Grid>
+                ))}
+              </Grid>
+            </Paper>
+          </Box>
+
+          {/* Other summary cards */}
           <Grid container spacing={3}>
             {/* Training Focus */}
             <Grid item xs={12} md={6}>
@@ -405,43 +443,6 @@ function TrainingDevelopment() {
                     )}
                   </Box>
                 ))}
-              </Paper>
-            </Grid>
-
-            {/* Recent Notes */}
-            <Grid item xs={12}>
-              <Paper sx={{ p: 3 }}>
-                <Box sx={{ display: 'flex', alignItems: 'center', mb: 2 }}>
-                  <AccessTimeIcon sx={{ color: 'primary.main', mr: 1 }} />
-                  <Typography variant="h6" color="primary.main">
-                    Recent Notes
-                  </Typography>
-                </Box>
-                <Grid container spacing={2}>
-                  {mockTrainingData.recentNotes.map((note, index) => (
-                    <Grid item xs={12} md={6} key={index}>
-                      <Paper 
-                        variant="outlined" 
-                        sx={{ 
-                          p: 2,
-                          bgcolor: note.type === 'coach' ? 'primary.50' : 'warning.50'
-                        }}
-                      >
-                        <Box sx={{ display: 'flex', justifyContent: 'space-between', mb: 1 }}>
-                          <Typography variant="caption" sx={{ fontWeight: 600 }}>
-                            {note.type === 'coach' ? 'Coach Note' : 'Medical Update'}
-                          </Typography>
-                          <Typography variant="caption" color="text.secondary">
-                            {new Date(note.date).toLocaleDateString()}
-                          </Typography>
-                        </Box>
-                        <Typography variant="body2">
-                          {note.note}
-                        </Typography>
-                      </Paper>
-                    </Grid>
-                  ))}
-                </Grid>
               </Paper>
             </Grid>
           </Grid>
