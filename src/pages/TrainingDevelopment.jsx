@@ -100,14 +100,7 @@ function TrainingDevelopment() {
 
       {/* Search Section - Only shown in list view */}
       {!selectedPlayer && (
-        <Paper 
-          sx={{ 
-            p: 3, 
-            mb: 3, 
-            background: 'linear-gradient(135deg, #97233F 0%, #7A1C32 50%, #5C1526 100%)',
-            borderRadius: 2
-          }}
-        >
+        <Box sx={{ mb: 3 }}>
           <TextField
             fullWidth
             placeholder="Search players by name, ID or squad..."
@@ -116,15 +109,16 @@ function TrainingDevelopment() {
             sx={{
               backgroundColor: 'white',
               borderRadius: 1,
+              boxShadow: '0 2px 4px rgba(0,0,0,0.1)',
               '& .MuiOutlinedInput-root': {
                 '& fieldset': {
-                  borderColor: 'transparent',
+                  borderColor: 'grey.300',
                 },
                 '&:hover fieldset': {
-                  borderColor: 'transparent',
+                  borderColor: 'grey.400',
                 },
                 '&.Mui-focused fieldset': {
-                  borderColor: 'transparent',
+                  borderColor: 'grey.500',
                 },
               },
             }}
@@ -136,7 +130,7 @@ function TrainingDevelopment() {
               ),
             }}
           />
-        </Paper>
+        </Box>
       )}
 
       {!selectedPlayer ? (
