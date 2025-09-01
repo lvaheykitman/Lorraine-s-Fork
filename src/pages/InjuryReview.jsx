@@ -25,7 +25,9 @@ import {
   List,
   ListItem,
   ListItemText,
-  ListItemIcon
+  ListItemIcon,
+  Checkbox,
+  ListItemButton
 } from '@mui/material'
 import {
   BarChart,
@@ -62,7 +64,9 @@ const injuryDatasets = {
       { name: 'Knee', count: 6, percentage: 12, severity: 'severe', recoveryTime: '6-8 weeks' },
       { name: 'Shoulder', count: 5, percentage: 10, severity: 'moderate', recoveryTime: '4-6 weeks' },
       { name: 'Concussion', count: 4, percentage: 8, severity: 'moderate', recoveryTime: '2-3 weeks' },
-      { name: 'Back', count: 3, percentage: 6, severity: 'mild', recoveryTime: '1-2 weeks' }
+      { name: 'Back', count: 3, percentage: 6, severity: 'mild', recoveryTime: '1-2 weeks' },
+      { name: 'Groin', count: 2, percentage: 4, severity: 'mild', recoveryTime: '1-2 weeks' },
+      { name: 'Hip', count: 2, percentage: 4, severity: 'moderate', recoveryTime: '2-3 weeks' }
     ],
     insight: "This month's hamstring injuries decreased by 15% compared to last month, indicating improved warm-up protocols."
   },
@@ -74,7 +78,10 @@ const injuryDatasets = {
       { name: 'Upper Body', count: 12, percentage: 24, severity: 'mild', recoveryTime: '2-3 weeks' },
       { name: 'Head/Neck', count: 8, percentage: 16, severity: 'moderate', recoveryTime: '2-4 weeks' },
       { name: 'Core', count: 6, percentage: 12, severity: 'mild', recoveryTime: '1-2 weeks' },
-      { name: 'Extremities', count: 4, percentage: 8, severity: 'severe', recoveryTime: '4-6 weeks' }
+      { name: 'Extremities', count: 4, percentage: 8, severity: 'severe', recoveryTime: '4-6 weeks' },
+      { name: 'Spine', count: 3, percentage: 6, severity: 'severe', recoveryTime: '5-6 weeks' },
+      { name: 'Joints', count: 2, percentage: 4, severity: 'moderate', recoveryTime: '3-4 weeks' },
+      { name: 'Muscles', count: 2, percentage: 4, severity: 'mild', recoveryTime: '1-2 weeks' }
     ],
     insight: "Lower body injuries remain the most common, but prevention programs have reduced severity by 20%."
   },
@@ -86,7 +93,10 @@ const injuryDatasets = {
       { name: '3-4 weeks', count: 12, percentage: 24, severity: 'moderate', examples: 'Hamstring strains, minor fractures' },
       { name: '5-8 weeks', count: 8, percentage: 16, severity: 'moderate', examples: 'Torn ligaments, stress fractures' },
       { name: '9-12 weeks', count: 6, percentage: 12, severity: 'severe', examples: 'Major surgeries, complex fractures' },
-      { name: '12+ weeks', count: 4, percentage: 8, severity: 'severe', examples: 'ACL reconstruction, major surgeries' }
+      { name: '12+ weeks', count: 4, percentage: 8, severity: 'severe', examples: 'ACL reconstruction, major surgeries' },
+      { name: '2-3 weeks', count: 3, percentage: 6, severity: 'mild', examples: 'Muscle strains, minor tears' },
+      { name: '6-7 weeks', count: 2, percentage: 4, severity: 'moderate', examples: 'Joint sprains, moderate tears' },
+      { name: '13-16 weeks', count: 1, percentage: 2, severity: 'severe', examples: 'Complex reconstructions' }
     ],
     insight: "Average recovery time improved by 12% this month due to enhanced rehabilitation protocols."
   },
@@ -99,7 +109,9 @@ const injuryDatasets = {
       { name: 'Mar', count: 10, percentage: 20, trend: 'increasing', change: 67 },
       { name: 'Apr', count: 7, percentage: 14, trend: 'decreasing', change: -30 },
       { name: 'May', count: 5, percentage: 10, trend: 'decreasing', change: -29 },
-      { name: 'Jun', count: 9, percentage: 18, trend: 'increasing', change: 80 }
+      { name: 'Jun', count: 9, percentage: 18, trend: 'increasing', change: 80 },
+      { name: 'Jul', count: 7, percentage: 14, trend: 'decreasing', change: -22 },
+      { name: 'Aug', count: 4, percentage: 8, trend: 'decreasing', change: -43 }
     ],
     insight: "Overall injury rate has decreased by 18% compared to the same period last year."
   }
@@ -121,8 +133,8 @@ const rosterTypes = [
 
 function InjuryReview() {
   const [activeTab, setActiveTab] = useState(0)
-  const [timeRange, setTimeRange] = useState('last-season')
-  const [rosterType, setRosterType] = useState('active-roster')
+  const [selectedTimeRanges, setSelectedTimeRanges] = useState(['last-season'])
+  const [selectedRosterTypes, setSelectedRosterTypes] = useState(['active-roster'])
   const [selectedBar, setSelectedBar] = useState(null)
   const [detailPanelOpen, setDetailPanelOpen] = useState(false)
   const [lastUpdate, setLastUpdate] = useState(new Date())
@@ -235,20 +247,28 @@ function InjuryReview() {
     <Box sx={{ p: 3 }}>
       {/* Page Header */}
       <Box sx={{ display: 'flex', alignItems: 'center', mb: 3 }}>
-                  <LocalHospitalOutlined sx={{ fontSize: 32, color: 'primary.main', mr: 2 }} />
         <Typography variant="h4" sx={{ color: 'primary.main' }}>
           Injury review
         </Typography>
       </Box>
 
-      {/* Auto-refresh indicator */}
-      <Alert 
-        icon={<RefreshOutlined />} 
-        severity="info" 
-        sx={{ mb: 3 }}
-      >
-        Data updated {getMinutesAgo()} minutes ago
-      </Alert>
+      {/* AI Insights */}
+      <Paper sx={{ p: 3, mb: 3, bgcolor: 'grey.50' }}>
+        <Box sx={{ display: 'flex', alignItems: 'center', mb: 2, justifyContent: 'space-between' }}>
+          <Box sx={{ display: 'flex', alignItems: 'center' }}>
+            <AssessmentOutlined sx={{ color: 'primary.main', mr: 1 }} />
+            <Typography variant="h6" sx={{ color: 'primary.main' }}>
+              AI insights
+            </Typography>
+          </Box>
+          <Typography variant="caption" color="text.secondary">
+            Updated {getMinutesAgo()} minutes ago
+          </Typography>
+        </Box>
+        <Typography variant="body1">
+          {currentDataset.insight}
+        </Typography>
+      </Paper>
 
       {/* Filters */}
       <Grid container spacing={2} sx={{ mb: 3 }}>
@@ -256,13 +276,26 @@ function InjuryReview() {
           <FormControl fullWidth size="small">
             <InputLabel>Time Range</InputLabel>
             <Select
-              value={timeRange}
+              multiple
+              value={selectedTimeRanges}
               label="Time Range"
-              onChange={(e) => setTimeRange(e.target.value)}
+              onChange={(e) => setSelectedTimeRanges(e.target.value)}
+              renderValue={(selected) => (
+                <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 0.5 }}>
+                  {selected.map((value) => (
+                    <Chip
+                      key={value}
+                      label={timeRanges.find(range => range.value === value)?.label}
+                      size="small"
+                    />
+                  ))}
+                </Box>
+              )}
             >
               {timeRanges.map((range) => (
                 <MenuItem key={range.value} value={range.value}>
-                  {range.label}
+                  <Checkbox checked={selectedTimeRanges.indexOf(range.value) > -1} />
+                  <ListItemText primary={range.label} />
                 </MenuItem>
               ))}
             </Select>
@@ -272,13 +305,26 @@ function InjuryReview() {
           <FormControl fullWidth size="small">
             <InputLabel>Roster Type</InputLabel>
             <Select
-              value={rosterType}
+              multiple
+              value={selectedRosterTypes}
               label="Roster Type"
-              onChange={(e) => setRosterType(e.target.value)}
+              onChange={(e) => setSelectedRosterTypes(e.target.value)}
+              renderValue={(selected) => (
+                <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 0.5 }}>
+                  {selected.map((value) => (
+                    <Chip
+                      key={value}
+                      label={rosterTypes.find(type => type.value === value)?.label}
+                      size="small"
+                    />
+                  ))}
+                </Box>
+              )}
             >
               {rosterTypes.map((type) => (
                 <MenuItem key={type.value} value={type.value}>
-                  {type.label}
+                  <Checkbox checked={selectedRosterTypes.indexOf(type.value) > -1} />
+                  <ListItemText primary={type.label} />
                 </MenuItem>
               ))}
             </Select>
@@ -316,16 +362,38 @@ function InjuryReview() {
             </Typography>
           </Box>
           <Box sx={{ display: 'flex', gap: 1 }}>
-            <Tooltip title="Export data">
-              <IconButton onClick={handleExport} size="small">
-                <FileDownloadOutlined />
-              </IconButton>
-            </Tooltip>
-            <Tooltip title="Share chart">
-              <IconButton onClick={handleShare} size="small">
-                <ShareOutlined />
-              </IconButton>
-            </Tooltip>
+            <Button
+              variant="outlined"
+              size="small"
+              startIcon={<FileDownloadOutlined />}
+              onClick={handleExport}
+              sx={{ 
+                color: 'grey.700',
+                borderColor: 'grey.300',
+                '&:hover': {
+                  borderColor: 'grey.400',
+                  bgcolor: 'grey.50'
+                }
+              }}
+            >
+              Export
+            </Button>
+            <Button
+              variant="outlined"
+              size="small"
+              startIcon={<ShareOutlined />}
+              onClick={handleShare}
+              sx={{ 
+                color: 'grey.700',
+                borderColor: 'grey.300',
+                '&:hover': {
+                  borderColor: 'grey.400',
+                  bgcolor: 'grey.50'
+                }
+              }}
+            >
+              Share
+            </Button>
           </Box>
         </Box>
         
@@ -370,18 +438,7 @@ function InjuryReview() {
         </Box>
       </Paper>
 
-      {/* AI Insights */}
-              <Paper sx={{ p: 3, mb: 3, bgcolor: 'grey.50' }}>
-          <Box sx={{ display: 'flex', alignItems: 'center', mb: 2 }}>
-            <AssessmentOutlined sx={{ color: 'primary.main', mr: 1 }} />
-            <Typography variant="h6" sx={{ color: 'primary.main' }}>
-              AI insights
-            </Typography>
-          </Box>
-        <Typography variant="body1">
-          {currentDataset.insight}
-        </Typography>
-      </Paper>
+
 
       {/* Detail Panel Dialog */}
       <Dialog 
