@@ -127,6 +127,69 @@ const AvailabilityTable = ({ athletes }) => {
         Availability Table
       </Typography>
 
+      {/* Action Buttons and View Toggle */}
+      <Box sx={{ 
+        display: 'flex', 
+        justifyContent: 'space-between', 
+        alignItems: 'center', 
+        mb: 3 
+      }}>
+        {/* View Toggle */}
+        <ToggleButtonGroup
+          value={viewMode}
+          exclusive
+          onChange={(e, newValue) => newValue && setViewMode(newValue)}
+          size="small"
+        >
+          <ToggleButton value="grid">
+            <Tooltip title="Grid View">
+              <GridViewIcon />
+            </Tooltip>
+          </ToggleButton>
+          <ToggleButton value="ladder">
+            <Tooltip title="Ladder View">
+              <ViewListIcon />
+            </Tooltip>
+          </ToggleButton>
+        </ToggleButtonGroup>
+
+        {/* Action Buttons */}
+        <Box sx={{ display: 'flex', gap: 1 }}>
+          <Button
+            variant="contained"
+            startIcon={<ShareIcon />}
+            onClick={() => {/* Share handler to be implemented */}}
+            sx={{
+              bgcolor: '#0F28FF',
+              '&:hover': {
+                bgcolor: '#0920CC'
+              },
+              textTransform: 'none',
+              color: 'white',
+              fontWeight: 500
+            }}
+          >
+            Share
+          </Button>
+          <Button
+            variant="contained"
+            startIcon={<PrintIcon />}
+            onClick={() => setShowPrintConfig(true)}
+            sx={{
+              bgcolor: '#0F28FF',
+              '&:hover': {
+                bgcolor: '#0920CC'
+              },
+              textTransform: 'none',
+              color: 'white',
+              fontWeight: 500
+            }}
+          >
+            Print
+          </Button>
+        </Box>
+      </Box>
+
       {/* Search and Filters */}
       <Box sx={{ mb: 3 }}>
         <Grid container spacing={2} alignItems="center">
@@ -179,73 +242,7 @@ const AvailabilityTable = ({ athletes }) => {
               </Select>
             </FormControl>
           </Grid>
-
-
         </Grid>
-      </Box>
-
-      {/* Action Buttons and View Toggle */}
-      <Box sx={{ 
-        display: 'flex', 
-        justifyContent: 'flex-end', 
-        alignItems: 'center', 
-        gap: 2,
-        mb: 3 
-      }}>
-        {/* Action Buttons */}
-        <Box sx={{ display: 'flex', gap: 1 }}>
-          <Button
-            variant="contained"
-            startIcon={<ShareIcon />}
-            onClick={() => {/* Share handler to be implemented */}}
-            sx={{
-              bgcolor: '#0F28FF',
-              '&:hover': {
-                bgcolor: '#0920CC'
-              },
-              textTransform: 'none',
-              color: 'white',
-              fontWeight: 500
-            }}
-          >
-            Share
-          </Button>
-          <Button
-            variant="contained"
-            startIcon={<PrintIcon />}
-            onClick={() => setShowPrintConfig(true)}
-            sx={{
-              bgcolor: '#0F28FF',
-              '&:hover': {
-                bgcolor: '#0920CC'
-              },
-              textTransform: 'none',
-              color: 'white',
-              fontWeight: 500
-            }}
-          >
-            Print
-          </Button>
-        </Box>
-
-        {/* View Toggle */}
-        <ToggleButtonGroup
-          value={viewMode}
-          exclusive
-          onChange={(e, newValue) => newValue && setViewMode(newValue)}
-          size="small"
-        >
-          <ToggleButton value="grid">
-            <Tooltip title="Grid View">
-              <GridViewIcon />
-            </Tooltip>
-          </ToggleButton>
-          <ToggleButton value="ladder">
-            <Tooltip title="Ladder View">
-              <ViewListIcon />
-            </Tooltip>
-          </ToggleButton>
-        </ToggleButtonGroup>
       </Box>
 
       {/* Grid View */}
@@ -316,17 +313,32 @@ const AvailabilityTable = ({ athletes }) => {
           </TableContainer>
 
           {/* Availability Legend */}
-          <Box sx={{ mt: 3, display: 'flex', gap: 2, justifyContent: 'center' }}>
+          <Box sx={{ mt: 3, display: 'flex', gap: 3, justifyContent: 'center' }}>
             <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
-              <Chip size="small" color="success" label="Available" />
+              <Box sx={{ 
+                width: 12, 
+                height: 12, 
+                borderRadius: '50%', 
+                bgcolor: 'success.main'
+              }} />
               <Typography variant="body2">Available</Typography>
             </Box>
             <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
-              <Chip size="small" color="error" label="Unavailable" />
+              <Box sx={{ 
+                width: 12, 
+                height: 12, 
+                borderRadius: '50%', 
+                bgcolor: 'error.main'
+              }} />
               <Typography variant="body2">Unavailable</Typography>
             </Box>
             <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
-              <Chip size="small" color="warning" label="Injured" />
+              <Box sx={{ 
+                width: 12, 
+                height: 12, 
+                borderRadius: '50%', 
+                bgcolor: 'warning.main'
+              }} />
               <Typography variant="body2">Injured</Typography>
             </Box>
           </Box>
