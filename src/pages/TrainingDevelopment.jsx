@@ -98,44 +98,46 @@ function TrainingDevelopment() {
         Training & Development
       </Typography>
 
-      {/* Search Section */}
-      <Paper 
-        sx={{ 
-          p: 3, 
-          mb: 3, 
-          background: 'linear-gradient(135deg, #97233F 0%, #7A1C32 50%, #5C1526 100%)',
-          borderRadius: 2
-        }}
-      >
-        <TextField
-          fullWidth
-          placeholder="Search players by name, ID or squad..."
-          value={searchQuery}
-          onChange={(e) => setSearchQuery(e.target.value)}
-          sx={{
-            backgroundColor: 'white',
-            borderRadius: 1,
-            '& .MuiOutlinedInput-root': {
-              '& fieldset': {
-                borderColor: 'transparent',
-              },
-              '&:hover fieldset': {
-                borderColor: 'transparent',
-              },
-              '&.Mui-focused fieldset': {
-                borderColor: 'transparent',
-              },
-            },
+      {/* Search Section - Only shown in list view */}
+      {!selectedPlayer && (
+        <Paper 
+          sx={{ 
+            p: 3, 
+            mb: 3, 
+            background: 'linear-gradient(135deg, #97233F 0%, #7A1C32 50%, #5C1526 100%)',
+            borderRadius: 2
           }}
-          InputProps={{
-            startAdornment: (
-              <InputAdornment position="start">
-                <SearchIcon sx={{ color: 'grey.500' }} />
-              </InputAdornment>
-            ),
-          }}
-        />
-      </Paper>
+        >
+          <TextField
+            fullWidth
+            placeholder="Search players by name, ID or squad..."
+            value={searchQuery}
+            onChange={(e) => setSearchQuery(e.target.value)}
+            sx={{
+              backgroundColor: 'white',
+              borderRadius: 1,
+              '& .MuiOutlinedInput-root': {
+                '& fieldset': {
+                  borderColor: 'transparent',
+                },
+                '&:hover fieldset': {
+                  borderColor: 'transparent',
+                },
+                '&.Mui-focused fieldset': {
+                  borderColor: 'transparent',
+                },
+              },
+            }}
+            InputProps={{
+              startAdornment: (
+                <InputAdornment position="start">
+                  <SearchIcon sx={{ color: 'grey.500' }} />
+                </InputAdornment>
+              ),
+            }}
+          />
+        </Paper>
+      )}
 
       {!selectedPlayer ? (
         // Player List View
@@ -220,12 +222,13 @@ function TrainingDevelopment() {
               <Grid item xs={12} md={4}>
                 <Box sx={{ display: 'flex', alignItems: 'center', gap: 2 }}>
                   <Avatar 
+                    src={`/public/assets/logos/teams/nfl/${selectedPlayer.firstname.toLowerCase()}-${selectedPlayer.lastname.toLowerCase()}.png`}
                     sx={{ 
                       width: 80, 
                       height: 80,
+                      border: '3px solid white',
                       bgcolor: 'white',
                       color: 'primary.main',
-                      border: '3px solid white',
                       fontSize: '1.5rem',
                       fontWeight: 'bold'
                     }}
@@ -248,37 +251,82 @@ function TrainingDevelopment() {
                 <Grid container spacing={2}>
                   {/* Age */}
                   <Grid item xs={6} sm={4}>
-                    <Paper sx={{ p: 2, bgcolor: 'rgba(255, 255, 255, 0.1)', borderRadius: 2 }}>
-                      <Typography variant="caption" sx={{ opacity: 0.8 }}>
-                        Age
-                      </Typography>
-                      <Typography variant="h6" sx={{ fontWeight: 700 }}>
-                        {selectedPlayer.age}
-                      </Typography>
+                    <Paper 
+                      sx={{ 
+                        p: 3, 
+                        borderRadius: 2,
+                        backgroundColor: '#ffffff',
+                        boxShadow: '0px 4px 10px rgba(0, 0, 0, 0.1)'
+                      }}
+                    >
+                      <Box sx={{ textAlign: 'left' }}>
+                        <Typography variant="h1" sx={{ 
+                          fontSize: '34px',
+                          fontWeight: 800, 
+                          color: '#97233F',
+                          mb: 1,
+                          lineHeight: 1
+                        }}>
+                          {selectedPlayer.age}
+                        </Typography>
+                        <Typography variant="h6" sx={{ color: '#1F2D44', mb: 1 }}>
+                          Age
+                        </Typography>
+                      </Box>
                     </Paper>
                   </Grid>
 
                   {/* Height */}
                   <Grid item xs={6} sm={4}>
-                    <Paper sx={{ p: 2, bgcolor: 'rgba(255, 255, 255, 0.1)', borderRadius: 2 }}>
-                      <Typography variant="caption" sx={{ opacity: 0.8 }}>
-                        Height
-                      </Typography>
-                      <Typography variant="h6" sx={{ fontWeight: 700 }}>
-                        {selectedPlayer.height}
-                      </Typography>
+                    <Paper 
+                      sx={{ 
+                        p: 3, 
+                        borderRadius: 2,
+                        backgroundColor: '#ffffff',
+                        boxShadow: '0px 4px 10px rgba(0, 0, 0, 0.1)'
+                      }}
+                    >
+                      <Box sx={{ textAlign: 'left' }}>
+                        <Typography variant="h1" sx={{ 
+                          fontSize: '34px',
+                          fontWeight: 800, 
+                          color: '#97233F',
+                          mb: 1,
+                          lineHeight: 1
+                        }}>
+                          {selectedPlayer.height}
+                        </Typography>
+                        <Typography variant="h6" sx={{ color: '#1F2D44', mb: 1 }}>
+                          Height
+                        </Typography>
+                      </Box>
                     </Paper>
                   </Grid>
 
                   {/* Weight */}
                   <Grid item xs={6} sm={4}>
-                    <Paper sx={{ p: 2, bgcolor: 'rgba(255, 255, 255, 0.1)', borderRadius: 2 }}>
-                      <Typography variant="caption" sx={{ opacity: 0.8 }}>
-                        Weight
-                      </Typography>
-                      <Typography variant="h6" sx={{ fontWeight: 700 }}>
-                        {selectedPlayer.weight}
-                      </Typography>
+                    <Paper 
+                      sx={{ 
+                        p: 3, 
+                        borderRadius: 2,
+                        backgroundColor: '#ffffff',
+                        boxShadow: '0px 4px 10px rgba(0, 0, 0, 0.1)'
+                      }}
+                    >
+                      <Box sx={{ textAlign: 'left' }}>
+                        <Typography variant="h1" sx={{ 
+                          fontSize: '34px',
+                          fontWeight: 800, 
+                          color: '#97233F',
+                          mb: 1,
+                          lineHeight: 1
+                        }}>
+                          {selectedPlayer.weight}
+                        </Typography>
+                        <Typography variant="h6" sx={{ color: '#1F2D44', mb: 1 }}>
+                          Weight
+                        </Typography>
+                      </Box>
                     </Paper>
                   </Grid>
                 </Grid>
