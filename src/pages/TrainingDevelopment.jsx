@@ -175,8 +175,8 @@ function TrainingDevelopment() {
                         />
                         <Box sx={{ display: 'flex', alignItems: 'center', gap: 0.5 }}>
                           {getHealthIcon(athlete.injury_status)}
-                          <Typography variant="caption" color="text.secondary">
-                            {athlete.injury_status}
+                          <Typography variant="caption" sx={{ color: 'grey.900', fontWeight: 500 }}>
+                            {athlete.injury_status === 'Healthy' ? 'Available' : 'Unavailable'}
                           </Typography>
                         </Box>
                       </Box>
