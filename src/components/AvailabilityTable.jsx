@@ -124,6 +124,7 @@ const AvailabilityTable = ({ athletes }) => {
   }
 
   return (
+    <>
     <Paper sx={{ p: 3 }}>
       <Typography variant="h5" gutterBottom sx={{ mb: 3 }}>
         Availability Table
@@ -371,6 +372,7 @@ const AvailabilityTable = ({ athletes }) => {
       itemName="Availability Table"
       owner="You"
     />
+    </>
   )
 }
 
