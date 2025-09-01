@@ -74,7 +74,7 @@ function MedinahLayoutWithMainNav({ children }) {
   return (
     <>
       <CssBaseline />
-      <Box sx={{ display: 'flex', gap: 0, height: '100vh', bgcolor: '#e6e8eb' }}>
+      <Box sx={{ display: 'flex', gap: 0, height: '100vh', bgcolor: '#ffffff' }}>
       {/* Main Navigation */}
       <MainNavigation 
         isCollapsed={!isNavOpen}
@@ -199,7 +199,7 @@ function MedinahLayoutWithMainNav({ children }) {
             flex: 1, 
             overflow: 'auto',
             p: 3,
-            bgcolor: '#d9dde2'
+            bgcolor: '#ffffff'
           }}
         >
           {children}

@@ -160,12 +160,15 @@ const AvailabilityTable = ({ athletes }) => {
             startIcon={<ShareIcon />}
             onClick={() => {/* Share handler to be implemented */}}
             sx={{
-              bgcolor: '#0F28FF',
+              bgcolor: 'grey.100',
+              color: 'grey.800',
+              border: '1px solid',
+              borderColor: 'grey.300',
               '&:hover': {
-                bgcolor: '#0920CC'
+                bgcolor: 'grey.200',
+                borderColor: 'grey.400'
               },
               textTransform: 'none',
-              color: 'white',
               fontWeight: 500
             }}
           >
@@ -176,12 +179,15 @@ const AvailabilityTable = ({ athletes }) => {
             startIcon={<PrintIcon />}
             onClick={() => setShowPrintConfig(true)}
             sx={{
-              bgcolor: '#0F28FF',
+              bgcolor: 'grey.100',
+              color: 'grey.800',
+              border: '1px solid',
+              borderColor: 'grey.300',
               '&:hover': {
-                bgcolor: '#0920CC'
+                bgcolor: 'grey.200',
+                borderColor: 'grey.400'
               },
               textTransform: 'none',
-              color: 'white',
               fontWeight: 500
             }}
           >
