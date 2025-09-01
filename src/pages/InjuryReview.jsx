@@ -70,7 +70,7 @@ const injuryDatasets = {
     description: 'Injuries by season and exposure type',
     data: [
       {
-        name: '2022',
+        name: '2020/21',
         'Training contact': 45,
         'Training no contact': 30,
         'Training other mechanisms': 15,
@@ -79,7 +79,7 @@ const injuryDatasets = {
         'Games other mechanisms': 10
       },
       {
-        name: '2023',
+        name: '2021/22',
         'Training contact': 38,
         'Training no contact': 25,
         'Training other mechanisms': 12,
@@ -88,7 +88,7 @@ const injuryDatasets = {
         'Games other mechanisms': 8
       },
       {
-        name: '2024',
+        name: '2022/23',
         'Training contact': 32,
         'Training no contact': 20,
         'Training other mechanisms': 10,
@@ -433,7 +433,7 @@ function InjuryReview() {
               <XAxis 
                 dataKey="name" 
                 label={{ 
-                  value: 'Seasons',
+                  value: 'No. of seasons',
                   position: 'bottom',
                   offset: 40
                 }}
