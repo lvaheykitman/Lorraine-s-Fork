@@ -68,12 +68,20 @@ function RosterOverview() {
         {/* Team Info */}
         <Box sx={{ display: 'flex', alignItems: 'center', mb: 3 }}>
           <Box>
-            <Typography variant="h4" sx={{ fontWeight: 700, color: '#ffffff' }}>
-              Arizona Cardinals
-            </Typography>
-            <Typography variant="h6" sx={{ color: '#ffffff' }}>
-              2025 season
-            </Typography>
+                         <Typography variant="h1" sx={{ 
+               fontSize: '60px', 
+               fontWeight: 700, 
+               color: '#ffffff',
+               lineHeight: 1.2
+             }}>
+               Arizona Cardinals
+             </Typography>
+             <Typography variant="h6" sx={{ 
+               color: '#ffffff',
+               mt: 1
+             }}>
+               2025 season
+             </Typography>
           </Box>
         </Box>
 
