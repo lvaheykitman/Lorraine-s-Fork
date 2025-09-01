@@ -47,7 +47,7 @@ const AvailabilityTable = ({ athletes }) => {
   const [selectedPosition, setSelectedPosition] = useState('all')
   const [viewMode, setViewMode] = useState('ladder')
   const [page, setPage] = useState(0)
-  const [rowsPerPage, setRowsPerPage] = useState(10)
+  const [rowsPerPage, setRowsPerPage] = useState(15)
   const [showPrintConfig, setShowPrintConfig] = useState(false)
 
   // Get unique squads from athletes
@@ -102,21 +102,16 @@ const AvailabilityTable = ({ athletes }) => {
 
   const getAvailabilityChip = (athlete) => {
     return (
-      <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
-        <Avatar
-          alt={`${athlete.firstname} ${athlete.lastname}`}
-          src={athlete.avatar}
-          sx={{ width: 24, height: 24 }}
-        >
-          {athlete.firstname[0]}
-        </Avatar>
-        <Chip
-          label={`${athlete.firstname} ${athlete.lastname}`}
-          color={getAvailabilityColor(athlete.availability_status)}
-          size="small"
-          sx={{ minWidth: 120 }}
-        />
-      </Box>
+      <Chip
+        label={`${athlete.firstname} ${athlete.lastname}`}
+        color={getAvailabilityColor(athlete.availability_status)}
+        size="small"
+        sx={{ 
+          minWidth: 150,
+          width: '100%',
+          justifyContent: 'flex-start'
+        }}
+      />
     )
   }
 
@@ -262,7 +257,7 @@ const AvailabilityTable = ({ athletes }) => {
               <TableHead>
                 <TableRow>
                   {Object.keys(positionGroups).map((group) => (
-                    <TableCell key={group} sx={{ fontWeight: 'bold', textAlign: 'center' }}>
+                    <TableCell key={group} sx={{ fontWeight: 'bold', textAlign: 'left', pl: 2 }}>
                       {group}
                     </TableCell>
                   ))}
@@ -271,9 +266,13 @@ const AvailabilityTable = ({ athletes }) => {
               <TableBody>
                 <TableRow>
                   {Object.entries(groupedAthletes).map(([group, athletes]) => (
-                    <TableCell key={group} sx={{ verticalAlign: 'top' }}>
-                      <Box sx={{ display: 'flex', flexDirection: 'column', gap: 1 }}>
-                        {athletes.map((athlete) => getAvailabilityChip(athlete))}
+                    <TableCell key={group} sx={{ verticalAlign: 'top', p: 1 }}>
+                      <Box sx={{ display: 'flex', flexDirection: 'column', gap: 0.5 }}>
+                        {athletes.map((athlete) => (
+                          <Box key={athlete.id} sx={{ pl: 1 }}>
+                            {getAvailabilityChip(athlete)}
+                          </Box>
+                        ))}
                       </Box>
                     </TableCell>
                   ))}

@@ -69,7 +69,7 @@ function RosterOverview() {
         <Box sx={{ display: 'flex', alignItems: 'center', mb: 3 }}>
           <Box>
                          <Typography variant="h1" sx={{ 
-               fontSize: '60px', 
+               fontSize: '42px', // Reduced from 60px by 30%
                fontWeight: 700, 
                color: '#ffffff',
                lineHeight: 1.2
@@ -96,10 +96,12 @@ function RosterOverview() {
                 boxShadow: '0px 4px 10px rgba(0, 0, 0, 0.1)'
               }}>
                 <Box sx={{ textAlign: 'left' }}>
-                  <Typography variant="h3" sx={{ 
-                    fontWeight: 700, 
-                    color: '#1F2D44',
-                    mb: 1
+                  <Typography variant="h1" sx={{ 
+                    fontSize: '34px', // Reduced from 48px by 30%
+                    fontWeight: 800, 
+                    color: '#97233F',
+                    mb: 1,
+                    lineHeight: 1
                   }}>
                     {teamData.activeInjuries}
                   </Typography>
@@ -122,10 +124,12 @@ function RosterOverview() {
                 boxShadow: '0px 4px 10px rgba(0, 0, 0, 0.1)'
               }}>
                 <Box sx={{ textAlign: 'left' }}>
-                  <Typography variant="h3" sx={{ 
-                    fontWeight: 700, 
-                    color: '#1F2D44',
-                    mb: 1
+                  <Typography variant="h1" sx={{ 
+                    fontSize: '34px', // Reduced from 48px by 30%
+                    fontWeight: 800, 
+                    color: '#97233F',
+                    mb: 1,
+                    lineHeight: 1
                   }}>
                     {teamData.activeIllness}
                   </Typography>
@@ -148,10 +152,12 @@ function RosterOverview() {
                 boxShadow: '0px 4px 10px rgba(0, 0, 0, 0.1)'
               }}>
                 <Box sx={{ textAlign: 'left' }}>
-                  <Typography variant="h3" sx={{ 
-                    fontWeight: 700, 
-                    color: '#1F2D44',
-                    mb: 1
+                  <Typography variant="h1" sx={{ 
+                    fontSize: '34px', // Reduced from 48px by 30%
+                    fontWeight: 800, 
+                    color: '#97233F',
+                    mb: 1,
+                    lineHeight: 1
                   }}>
                     {teamData.fitToPlayIndex}%
                   </Typography>
