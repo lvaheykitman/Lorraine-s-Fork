@@ -195,7 +195,14 @@ function TrainingDevelopment() {
             <Button
               startIcon={<ArrowBackIcon />}
               onClick={() => setSelectedPlayer(null)}
-              sx={{ color: 'grey.600' }}
+              sx={{ 
+                color: 'grey.600',
+                bgcolor: 'transparent',
+                '&:hover': {
+                  bgcolor: 'transparent',
+                  color: 'grey.800'
+                }
+              }}
             >
               Back to Players
             </Button>
@@ -241,10 +248,10 @@ function TrainingDevelopment() {
               </Grid>
 
               {/* Quick Stats */}
-              <Grid item xs={12} md={8}>
-                <Grid container spacing={2}>
+              <Grid item xs={12}>
+                <Grid container spacing={2} justifyContent="center">
                   {/* Age */}
-                  <Grid item xs={6} sm={4}>
+                  <Grid item xs={12} sm={4} md={3}>
                     <Paper 
                       sx={{ 
                         p: 3, 
@@ -271,7 +278,7 @@ function TrainingDevelopment() {
                   </Grid>
 
                   {/* Height */}
-                  <Grid item xs={6} sm={4}>
+                  <Grid item xs={12} sm={4} md={3}>
                     <Paper 
                       sx={{ 
                         p: 3, 
@@ -298,7 +305,7 @@ function TrainingDevelopment() {
                   </Grid>
 
                   {/* Weight */}
-                  <Grid item xs={6} sm={4}>
+                  <Grid item xs={12} sm={4} md={3}>
                     <Paper 
                       sx={{ 
                         p: 3, 
